@@ -1,0 +1,1 @@
+# interstol.sk
