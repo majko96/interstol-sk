@@ -15,7 +15,7 @@ class SitemapController extends AbstractController
     }
 
     #[Route('/sitemap.xml', name: 'sitemap')]
-    public function index()
+    public function index(): Response
     {
         $routes = $this->router->getRouteCollection()->all();
         $appRoutes = [];
@@ -56,7 +56,7 @@ class SitemapController extends AbstractController
     }
 
     #[Route('/robots.txt', name: 'robots_txt')]
-    public function robotsTxt()
+    public function robotsTxt(): Response
     {
         $robotsTxt = "User-agent: *\nDisallow: /build/\nDisallow: /api/";
 

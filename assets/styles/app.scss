@@ -751,7 +751,7 @@ i {
   color: $text-color;
   font-weight: 200 !important;
   line-height: 1.8 !important;
-  font-size: 1.6rem;
+  font-size: 1.6rem !important;
   padding: 30px 0;
   @media (max-width: 600px) {
     font-weight: 200 !important;
@@ -969,3 +969,10 @@ main p {
   text-shadow: 0 0 5px #c3d168a2;
 }
 ///////////////////////////////////////////////////// 404
+
+.vertical-timeline-element-content {
+  border-radius: 30px !important;
+  @media (max-width: 1200px) {
+    border-radius: 25px !important;
+  }
+}
