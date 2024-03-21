@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="mt100">
+        <div class="container mt-5 mb-5 wrapper">
+            <h1>Kovania</h1>
+            <p class="about-us">
+                Doba sa stále posúva a popredný výrobcovia nábytkových kovaní vyvíjajú stále nové systémy.
+                Nemecká firma Blum uvádza na svoje kovania dokonca doživotnú záruku. Snažíme sa držať krok s 
+                vývojom a umožniť tak naším zákazníkom funkčné a praktické využitie svojho nábytku.
+                <br><br>
+            </p>
+            <div class="row mb-5 d-flex justify-content-center align-items-stretch">
+                <div class="col-md-2 col-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <img class="img-fluid logo-bg" src="{{ asset('/build/images/logo/blum.svg') }}" alt="sample">
+                    </div>
+                </div>
+                <div class="col-md-2 col-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <img class="img-fluid logo-bg" src="{{ asset('/build/images/logo/hettich1.png') }}" alt="sample">
+                    </div>
+                </div>
+                <div class="col-md-2 col-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <img class="img-fluid logo-bg" src="{{ asset('/build/images/logo/hafele1.png') }}" alt="sample">
+                    </div>
+                </div>
+                <div class="col-md-2 col-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <img class="img-fluid logo-bg" src="{{ asset('/build/images/logo/strong.png') }}" alt="sample">
+                    </div>
+                </div>
+                <div class="col-md-2 col-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <img class="img-fluid logo-bg" src="{{ asset('/build/images/logo/gtv1.png') }}" alt="sample">
+                    </div>
+                </div>
+                <div class="col-md-2 col-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <img class="img-fluid logo-bg" src="{{ asset('/build/images/logo/swell1.png') }}" alt="sample">
+                    </div>
+                </div>
+            </div>
+            <p class="about-us">
+                Výklopy BLUM
+            </p>
+            <div data-react-container="FittingsGallery"></div>
+            <p class="about-us mt-5">
+                Zásuvky BLUM
+            </p>
+            <div data-react-container="DrawersGallery"></div>
+        </div>
+    </div>
+{% endblock %}

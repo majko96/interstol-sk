@@ -1,0 +1,73 @@
+{% block body %}
+    <footer class="text-center text-lg-start">
+        <section class="pt-3">
+            <div class="container text-center text-md-start mt-5">
+                <div class="row mt-3">
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            INTERSTOL
+                        </h6>
+                        <p>
+                            Naša stolárska firma spojuje majstrovské remeslo s moderným dizajnom, aby sme Vám poskytli
+                            individuálne vyhotovený nábytok, ktorý splní všetky Vaše vysnívané predstavy.
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Sociálne siete
+                        </h6>
+                        <p>
+                            <a href="" class="me-4 text-reset text-decoration-none">
+                                <i class="fab fa-facebook-f fa-xl me-3"></i> Facebook
+                            </a>
+                        </p>
+                        <p>
+                            <a href="https://instagram.com/{{ instagramAccount }}"
+                               target="_blank"
+                               class="me-4 text-reset text-decoration-none"
+                            >
+                                <i class="fab fa-instagram fa-xl me-3"></i> Instagram
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Stránky
+                        </h6>
+                        <p>
+                            <a href="/" class="text-reset">O nás</a>
+                        </p>
+                        <p>
+                            <a href="/nase-sluzby" class="text-reset">Naše služby</a>
+                        </p>
+                        <p>
+                            <a href="/materialy" class="text-reset">Materiály</a>
+                        </p>
+                        <p>
+                            <a href="/kovania" class="text-reset">Kovania</a>
+                        </p>
+                        <p>
+                            <a href="/kontakt" class="text-reset">Kontakt</a>
+                        </p>
+                        <p>
+                            <a href="#" id="open_preferences_center">Cookies</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <h6 class="text-uppercase fw-bold mb-4">Kontakt</h6>
+                        <p><i class="fas fa-home me-2"></i> Prečín 295, 018 15 Slovensko</p>
+                        <p>
+                            <a href="mailto:info@interstol.sk"><i class="fas fa-envelope me-3"></i>info@interstol.sk</a>
+                        </p>
+                        <p>
+                            <a href="tel:+421908743805"><i class="fas fa-phone me-3"></i>0908 743 805</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="text-center p-4">
+            © {{ 'now' | date('Y') }} INTERSTOL
+        </div>
+    </footer>
+{% endblock %}

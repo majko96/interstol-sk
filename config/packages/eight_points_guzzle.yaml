@@ -1,0 +1,18 @@
+eight_points_guzzle:
+    # (de)activate logging/profiler; default: %kernel.debug%
+    logging: true
+
+    # configure when a response is considered to be slow (in ms); default 0 (disabled)
+    slow_response_time: 1000
+
+    clients:
+        default:
+            base_url: 'https://api.example.com'
+
+        crm:
+            base_url: 'http://api.crm.tld'
+            options:
+                headers:
+                    Accept: 'application/json'
+
+        # More clients here

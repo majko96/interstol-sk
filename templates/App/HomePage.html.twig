@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="homepage-header" id="backgroundDiv">
+    <div>
+        <h1>Výroba nábytku <span class="text-main-color">na mieru</span>
+        </h1>
+        <h2>
+            "PRECÍZNOSŤ, ODBORNOSŤ, SPOĽAHLIVOSŤ„
+        </h2>
+    </div>
+</div>
+    <div id="dotsContainer"></div>
+    <div class="container mt-5 mb-5">
+        <div class="text-center about-us p-0">
+                <div class="">
+                    <div>
+                        <div>
+                            <p class="main-color fst-italic fw-light h1">Potrebujete vyrobiť nábytok?<br/></p>
+                            Dovoľte našej stolárskej firme zariadiť svoj domov nábytkom podľa Vašich predstáv.
+                        </div>
+                        <p class="main-color fst-italic fw-light p-2 mt-4">„Stolárstvo s viac ako 25 ročnými skúsenosťami"</p>
+                        <p class="pt-2">
+                        Spočiatku sme sa zameriavali predovšetkým na prácu
+                        s masívnym drevom - dvere, schody, postele...<br>S pokrokom doby sme rozšírili strojné
+                        vybavenie a začali
+                        pracovať aj s veľkoplošnými materiálmi. V modernej lakovni nie je problém vyrobiť najkvalitnejšie
+                        nástreky plôch od morenia, lakovania až po RAL odtiene farieb prevedených do vysokého lesku.
+                        O kvalite našich služieb svedčí aj skutočnosť, že do obchodnej siete v rámci Slovenska už bolo
+                        dodaných viac ako 10 000 výrobkov z našej dielne. Nakoľko rozširujeme zameranie aj na zákazkovú
+                        výrobu, bolo nevyhnutné rozšíriť aj výrobné technológie, aby sme dokázali splniť požiadavky aj
+                        tých najnáročnejších zákaznikov.
+                        </p>
+                    </p>
+                </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-5 mb-5">
+        <div class="text-center">
+            <h2 class="fw-bold"><i class="fab fa-instagram fa-xl"></i> Instagram</h2>
+
+            {% set instagramAccount = instagram_account %}
+
+            {{ instagramAccount }}
+            {% set props = {
+                'instagramAccount': instagram_account
+            } %}
+            <div class="container pt-5 pb-5" data-react-container="Instagram"
+                 data-react-props={{ props|json_encode|raw }}></div>
+        </div>
+    </div>
+    <div class="container-fluid mt-4 mb-5">
+        <div class="text-center">
+            <h2 class="fw-bold">Recenzie</h2>
+
+            <div class="container pt-4 pb-5" data-react-container="References"></div>
+        </div>
+    </div>
+    </div>
+    <div class="homepage-image-section">
+        <div>
+            <h2>
+                "Šikovné ruky, spoľahlivé diela„
+            </h2>
+        </div>
+    </div>
+    <script>
+        window.onload = function() {
+            var backgroundDiv = document.getElementById("backgroundDiv");
+            var dotsContainer = document.getElementById("dotsContainer");
+            var images = ["kit7.jpg", "kit6.jpg", "kit3.jpg", 'kkk.jpg'];
+            var currentIndex = 0;
+            var intervalId;
+
+            function changeBackground(index) {
+                backgroundDiv.style.backgroundImage = "url('build/images/" + images[index] + "')";
+                currentIndex = index;
+                updateDots();
+            }
+
+            function updateDots() {
+                dotsContainer.innerHTML = "";
+                for (var i = 0; i < images.length; i++) {
+                    var dot = document.createElement("span");
+                    dot.className = "dot";
+                    dot.dataset.index = i;
+                    dot.addEventListener("click", function() {
+                        var index = parseInt(this.dataset.index);
+                        changeBackground(index);
+                        resetInterval();
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+                dotsContainer.querySelector('[data-index="' + currentIndex + '"]').classList.add("active-dot");
+            }
+
+            function resetInterval() {
+                clearInterval(intervalId);
+                intervalId = setInterval(function() {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    changeBackground(currentIndex);
+                }, 7000);
+            }
+            changeBackground(currentIndex);
+            updateDots();
+
+            intervalId = setInterval(function() {
+                currentIndex = (currentIndex + 1) % images.length;
+                changeBackground(currentIndex);
+            }, 5000);
+        };
+    </script>
+{% endblock %}

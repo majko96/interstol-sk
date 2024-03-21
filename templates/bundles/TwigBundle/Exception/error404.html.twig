@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div id="particles" class="particles">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <main>
+        <section>
+            <h1>Stránka nenájdená!</h1>
+            <div>
+                <span>4</span>
+                <span class="circle">0</span>
+                <span>4</span>
+            </div>
+            <p>Nemôžeme nájsť stránku,<br>ktorú hľadáte.</p>
+            <div>
+                <button class="btn btn-secondary send-button" onclick="redirectToHomepage()">
+                    Naspäť na domovskú stránku
+                </button>
+            </div>
+        </section>
+    </main>
+    </body>
+    <script>
+        function redirectToHomepage() {
+            window.location.href = '/';
+        }
+    </script>
+{% endblock %}

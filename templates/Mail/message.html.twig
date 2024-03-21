@@ -1,0 +1,53 @@
+{# templates/message.html.twig #}
+
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333333;
+        }
+        p {
+            color: #666666;
+            line-height: 1.6;
+        }
+        strong { 
+            color: #000000;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Kontaktné informácie</h2>
+        <p><strong>Email: </strong><a href="mailto:{{ email }}">{{ email }}</a></p>
+        <p><strong>Mobil: </strong><a href="tel:{{ phone }}">{{ phone }}</a></p>
+        <p><strong>Meno:</strong> {{ name }}&nbsp;{{surname}}</p>
+        <p><strong>Predmet:</strong> {{ subject }}</p>
+        <h2>Správa</h2>
+        <p>{{ message }}</p>
+    </div>
+</body>
+</html>

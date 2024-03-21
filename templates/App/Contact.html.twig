@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="mt100">
+    <div class="container mt-5 mb-5 wrapper">
+        <h1>Kontakt</h1>
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                    <p class="fw-bold">Stolárske práce Anton Dvorščík</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fa-solid fa-envelope me-2"></i>&nbsp;<a href="mailto:info@interstol.sk">info@interstol.sk</a></li>
+                        <li><i class="fa-solid fa-phone me-2"></i>&nbsp;<a href="tel:+421908743805">0908 743 805</a></li>
+                        <li class="mt-3">IČO: 40 309 240</li>
+{#                        <li>DIČ: 1023350053</li>#}
+                        <li>IČ DPH: SK1023350053</li>
+                        <li class="mt-3"><i class="fa-solid fa-location-dot me-2"></i>Prečín 295, 018 15 Prečín</li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div data-react-container="ContactForm"></div>
+            </div>
+        </div>
+    </div>
+    <div id="map" class="map-container">
+        <div class="map-responsive">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2613.2162985951686!2d18.520751777004836!3d49.08252987136341!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47148cb0736b4fb1%3A0x1245eadc8fd9d41c!2zUHJlxI3DrW4gMjk1LCAwMTggMTUgUHJlxI3DrW4!5e0!3m2!1ssk!2ssk!4v1710683616661!5m2!1ssk!2ssk"
+                    width="600"
+                    height="450"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="sk">
+    <head>
+        <!-- Cookie Consent by FreePrivacyPolicy.com https://www.FreePrivacyPolicy.com -->
+        <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
+        <script type="text/javascript" charset="UTF-8">
+            document.addEventListener('DOMContentLoaded', function () {
+                cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"light","language":"sk","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"Interstol"});
+            });
+        </script>
+        <!-- Google tag -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-P6EQ0YK31N"></script>
+        <script type="text/plain" data-cookie-consent="tracking">
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-P6EQ0YK31N');
+        </script>
+        <!-- end of Google tag-->
+        <noscript>Cookie Consent by <a href="https://www.freeprivacypolicy.com/">Free Privacy Policy Generator</a></noscript>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="INTERSTOL - stolárstvo Anton Dvorščík"/>
+        <meta name="keywords"
+          content="vyroba nabytku na mieru, stolarstvo, precin, kuchynske linky, skrine, kuchyna na mieru, anton dvorscik, stolarstvo dvorscik, dvorscik, stolarstvo precin, stolarstvo povazska bystrica, stolar, vstavane skrine"/>
+        <meta name="author" content="Mario Babinec"/>
+        <title>{% block title %}INTERSTOL - stolárstvo Anton Dvorščík{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        {% endblock %}
+        <meta property="og:url" content="{{ app.request.uri|lower}}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Interstol - výroba nábytku na mieru v Prečíne" />
+        <meta property="og:description" content="Nechajte svoj domov ožiť s naším nábytkom na mieru! Špecializujeme sa na individuálnu výrobu nábytku, ktorý presne vyhovuje vašim potrebám a štýlu. Neváhajte a kontaktujte nás." />
+        <meta property="og:image" content="{{ app.request.uri|lower}}build/images/og-logo.png" />
+    </head>
+    <body id="root">
+    <a href="tel:+421908743805" id="contactButton" class="btn btn-secondary rounded-circle d-lg-none">
+        <i class="fas fa-phone"></i>
+    </a>
+    {% include 'navbar.html.twig' %}
+        {% block body %}{% endblock %}
+    {% include 'footer.html.twig' %}
+    </body>
+</html>

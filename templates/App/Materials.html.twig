@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container mt100 mb-5">
+        <h1>
+            Materiály
+        </h1>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <p class="pe-md-5 about-us">
+                    Lamino – laminované materiály sú jedným z hlavných produktov na výrobu nábytku. Široká škála
+                    dekorov či farieb poskytuje nekonečné možnosti na realizáciu moderného dizajnu do každého
+                    interiéru. Inšpirujte sa katalógmi renomovaných značiek
+                </p>
+            </div>
+            <div class="col-md-6">
+                <div class="img-fluid">
+                    <img class="img-fluid" src="{{ asset('/build/images/wood-sample.png') }}" alt="sample">
+                </div>
+            </div>
+        </div>
+        <div class="mt-5">
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <a href="https://www.egger.com/cs/vyroba-nabytku-a-interierovy-design/?country=SK"
+                       target="_blank"
+                       class="text-decoration-none"
+                    >
+                        <div class="material-card">
+                            <div>
+                                <img class="img-fluid" src="{{ asset('/build/images/egger.jpg') }}" alt="sample">
+                            </div>
+                            <p>
+                                Egger vzorkovnik
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-md-4">
+                    <a href="https://kronospan.com/sk_SK/decors/by_collection/kronodesign"
+                       target="_blank"
+                       class="text-decoration-none"
+                    >
+                        <div class="material-card">
+                            <div>
+                                <img class="img-fluid" src="{{ asset('/build/images/kronospan.jpg') }}" alt="sample">
+                            </div>
+                            <p>
+                                Kronospan vzorkovnik
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-md-4">
+                    <a href="https://www.kaindl.com/en/boards/"
+                       target="_blank"
+                       class="text-decoration-none"
+                    >
+                        <div class="material-card">
+                            <div>
+                                <img class="img-fluid" src="{{ asset('/build/images/kaindl.jpg') }}" alt="sample">
+                            </div>
+                            <p>
+                                Kaindl vzorkovnik
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div class="img-fluid">
+                    <img class="img-fluid" src="{{ asset('/build/images/ven.png') }}" alt="sample">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p class="pe-md-5 about-us">
+                    Dyha – dyhované materiály patria ku klasickým no menej používaným materiálom na výrobu nábytku najmä
+                    kvôli zvýšenej pracnosti a oveľa vyššej cene. Nábytok vyrobený z dyhovaných materiálov sa Vám
+                    však odmení originálnym prírodným vzhľadom a jedinečnosťou povrchu.
+                </p>
+            </div>
+            <div class="mt-5 row justify-content-center">
+                <div class="col-12 col-md-4">
+                    <a href="https://www.jafholz.cz/shop/plosne-materialy/dyhovane-materialy~c14208395"
+                       target="_blank"
+                       class="text-decoration-none"
+                    >
+                        <div class="material-card">
+                            <div>
+                                <img class="img-fluid" src="{{ asset('/build/images/jaf.png') }}" alt="sample">
+                            </div>
+                            <p>
+                                JAF vzorkovnik
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
