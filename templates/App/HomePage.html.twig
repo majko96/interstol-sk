@@ -52,7 +52,11 @@
         <div class="text-center">
             <h2 class="fw-bold">Recenzie</h2>
 
-            <div class="container pt-4 pb-5" data-react-container="References"></div>
+            <div
+                class="container pt-4 pb-5"
+                data-react-container="References"
+                data-react-props="{{ references|json_encode }}">
+            </div>
         </div>
     </div>
     </div>

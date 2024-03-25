@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use App\Service\InstagramDataService;
 use Exception;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Instagram\Exception\InstagramAuthException;
 use Instagram\Exception\InstagramDownloadException;
 use Instagram\Exception\InstagramException;
 use Instagram\Model\Media;
 use Psr\Cache\InvalidArgumentException;
+use Random\RandomException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -28,65 +29,13 @@ class ApiController extends AbstractController
 {
     private Environment $twig;
     private MailerInterface $mailer;
-    private Client $client;
 
-    public function __construct(MailerInterface $mailer, Environment $twig, Client $client)
-    {
+    public function __construct(
+        MailerInterface $mailer,
+        Environment $twig,
+    ) {
         $this->twig = $twig;
         $this->mailer = $mailer;
-        $this->client = $client;
-    }
-
-    /**
-     * @throws GuzzleException
-     */
-    #[Route('/api/references', name: 'api_references')]
-    public function references(): JsonResponse
-    {
-
-
-        $apiKey = $this->getParameter('google_drive_api_key');
-        $fileId = $this->getParameter('google_drive_file_id');
-        $response = $this->client->request(
-            'GET',
-            "https://www.googleapis.com/drive/v3/files/{$fileId}/export?mimeType=text/plain&key={$apiKey}"
-        );
-
-        $text = $response->getBody()->getContents();
-        $references = $this->parseReviews($text);
-        return new JsonResponse($references);
-    }
-
-    public function parseReviews($text): array
-    {
-        $text = preg_replace('/^\x{FEFF}/u', '', $text);
-        $reviews = array();
-        $lines = explode("\n", $text);
-        $currentReview = array();
-        foreach ($lines as $line) {
-            $line = trim($line);
-            if ($line === '') {
-                continue;
-            }
-            if (str_contains($line, ': ')) {
-                list($key, $value) = explode(': ', $line, 2);
-                $key = trim($key);
-                $value = trim($value);
-                if ($key === 'recenzia') {
-                    if (!empty($currentReview)) {
-                        $reviews[] = $currentReview;
-                    }
-                    $currentReview = array();
-                }
-                $currentReview[$key] = $value;
-            }
-        }
-
-        if (!empty($currentReview)) {
-            $reviews[] = $currentReview;
-        }
-
-        return $reviews;
     }
 
     /**
@@ -186,9 +135,10 @@ class ApiController extends AbstractController
      * @throws InstagramException
      * @throws GuzzleException
      * @throws InstagramDownloadException
+     * @throws RandomException
      */
-    #[Route('/api/instagram-feed', name: 'api_instagram_feed')]
-    public function instagramFeed(Request $request): JsonResponse|string
+    #[Route('/api/instagram-feed/{forced}/{apiKey}', name: 'api_instagram_feed', defaults: ['forced' => null, 'apiKey' => null])]
+    public function instagramFeed(Request $request, ?string $forced, ?string $apiKey): JsonResponse|string
     {
 
         if (!is_dir('../public/instagram')) {
@@ -201,18 +151,28 @@ class ApiController extends AbstractController
         $key = 'last_request_time';
         $dataKey = 'data_key';
         $lastRequestTime = $cache->getItem($key)->get();
-        $data = $cache->getItem($dataKey)->get();
-        $cacheData = (unserialize($data));
         $instagramMedia = [];
 
         $folderItems = scandir('../public/instagram');
         $itemsInFolder = array_diff($folderItems, ['.', '..']);
         $numberOfFiles = count($itemsInFolder);
 
-        if ($numberOfFiles === 0) {
+        $instagramFeedApiKey = $this->getParameter('instagram_feed_api_key');
+
+        if ($apiKey !== null) {
+            if ($apiKey !== $instagramFeedApiKey) {
+                return new JsonResponse('Invalid API KEY!', 500);
+            }
+        }
+
+        if ($forced === 'forced' && $apiKey === null) {
+            return new JsonResponse('API KEY is missing!', 500);
+        }
+
+        if ($numberOfFiles === 0 || ($forced === 'forced' && $apiKey === $instagramFeedApiKey)) {
             $cacheTime = 1;
         } else {
-            $cacheTime = 3600;
+            $cacheTime = 43200 + random_int(7200, 14400);
         }
 
         if (!$lastRequestTime || (time() - $lastRequestTime) > $cacheTime) {
@@ -255,17 +215,8 @@ class ApiController extends AbstractController
 
             $this->downloadMedias($profileMedia->getMedias());
         } else {
-            foreach ($cacheData as $oneMedia) {
-                $itemData['id'] = $oneMedia->getId();
-                $itemData['caption'] = $oneMedia->getCaption();
-                $itemData['link'] = $oneMedia->getLink();
-                $itemData['shortCode'] = $oneMedia->shortcode;
-                $itemData['likes'] = $oneMedia->getLikes();
-                $itemData['comments'] = $oneMedia->getComments();
-                $itemData['height'] = $oneMedia->getHeight();
-                $itemData['width'] = $oneMedia->getWidth();
-                $instagramMedia[] = $itemData;
-            }
+            $instagramDataService = new InstagramDataService();
+            $instagramMedia = $instagramDataService->getCachedInstagramData();
         }
         return new JsonResponse($instagramMedia);
     }

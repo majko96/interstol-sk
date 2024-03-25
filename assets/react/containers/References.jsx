@@ -34,54 +34,9 @@ const customStyles = {
     },
 };
 
-const References = () => {
+const References = (props) => {
     const [arrow, setArrow] = useState(true);
     const [modalIsOpen, setIsOpen] = useState(false);
-    const [data, setData] = useState(null);
-    const [error, setError] = useState(false);
-
-    const MAX_RETRIES = 5;
-    const RETRY_DELAY = 2000; // 2 seconds
-
-    const getReferences = async (retryCount = 0) => {
-        const url = '/api/references';
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.log(error);
-            if (retryCount < MAX_RETRIES) {
-                await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-                return getReferences(retryCount + 1);
-            } else {
-                throw error;
-            }
-        }
-    }
-
-    useEffect(() => {
-        getReferences().then(data => {
-            setData(data);
-        }).catch(error => {
-            setError(true);
-        });
-    }, []);
-
-    const renderLoading = () => {
-        return (
-            <div className="white-loader"></div>
-        )
-    }
 
     function openModal() {
         setIsOpen(true);
@@ -114,16 +69,16 @@ const References = () => {
     }
 
     const renderReferences = (items) => {
-        return items.map((item, index) => (
+        return Object.values(items).map((item, index) => (
             <div key={index} className="pe-4 ps-4 pb-4 ">
                 <div className="mb-3">
                     <Rating
-                        initialValue={item.hodnotenie}
+                        initialValue={item.value}
                         readonly={true}
                     />
                 </div>
-                <p>{item.recenzia}</p>
-                <b>{item.meno}</b>
+                <p>{item.text}</p>
+                <b>{item.name}</b>
             </div>
         ));
     };
@@ -139,23 +94,11 @@ const References = () => {
         arrows: arrow,
     };
 
-    if (error) {
-        return (
-            <div className="about-us">
-                Prepáčte, niečo sa pokazilo...
-            </div>
-        )
-    }
-
-    if (!data) return (
-        <div className={'p-4'}>{renderLoading()}</div>
-    );
-
     return (
         <div className="slider-container pb-5">
             {renderModal()}
             <Slider {...settings}>
-                {renderReferences(data)}
+                {renderReferences(props)}
             </Slider>
             <div className={'pt-5 mt-3'}>
                 <button

@@ -50,8 +50,12 @@
     <a href="tel:+421908743805" id="contactButton" class="btn btn-secondary rounded-circle d-lg-none">
         <i class="fas fa-phone"></i>
     </a>
-    {% include 'navbar.html.twig' %}
+    {% if app.request.attributes.get('_route') != 'app_login' %}
+        {% include 'navbar.html.twig' %}
+    {% endif %}
         {% block body %}{% endblock %}
-    {% include 'footer.html.twig' %}
+    {% if app.request.attributes.get('_route') != 'app_login' %}
+        {% include 'footer.html.twig' %}
+    {% endif %}
     </body>
 </html>
