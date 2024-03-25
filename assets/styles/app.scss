@@ -77,7 +77,7 @@ nav {
     text-decoration: none;
   }
   i {
-    color: $text-color;
+    color: $text-main-color;
     padding: 8px 0;
   }
   @media (max-width: 991px) {
@@ -975,4 +975,37 @@ main p {
   @media (max-width: 1200px) {
     border-radius: 25px !important;
   }
+}
+
+.login-card {
+    background-color: #333;
+    color: $text-color;
+    border-radius: 30px;
+    font-weight: 600;
+    border: 1px solid #6c757d !important;
+    padding: 30px;
+    margin: 20px;
+}
+
+.login-form {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    min-width: 350px;
+    @media (max-width: 400px) {
+        width: calc(100vw - 50px);
+    }
+}
+
+footer section div a:hover {
+    color: $text-main-color !important;
+}
+
+.list-unstyled li a:hover {
+    color: $text-main-color !important;
+}
+
+.top-navbar a:hover {
+    color: $text-main-color !important;
 }

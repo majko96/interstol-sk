@@ -2,33 +2,45 @@
 
 namespace App\Controller;
 
+use App\Entity\Review;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Twig\Environment;
 
-class AppController extends AbstractController
+class AppController extends BaseController
 {
-    private Environment $twig;
-    private ParameterBagInterface $parameters;
+    protected Environment $twig;
+    protected ParameterBagInterface $parameters;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(
         Environment $twig,
-        ParameterBagInterface $parameters
+        ParameterBagInterface $parameters,
+        EntityManagerInterface $entityManager,
     ) {
-        $this->twig = $twig;
-        $this->parameters = $parameters;
-        $this->twig->addGlobal(
-            'instagramAccount',
-            $this->parameters->get('instagram_main_user_name')
-        );
+        parent::__construct($twig, $parameters);
+        $this->entityManager = $entityManager;
     }
     #[Route('/', name: 'app_home_page')]
     public function index(): Response
     {
+        $reviewRepository = $this->entityManager->getRepository(Review::class);
+
+        $reviews = $reviewRepository->findAll();
+        $reviewArray = [];
+        foreach ($reviews as $review) {
+            $reviewArray[] = [
+                'id' => $review->getId(),
+                'name' => $review->getName(),
+                'value' => $review->getValue(),
+                'text' => $review->getText(),
+            ];
+        }
         return $this->render('App/HomePage.html.twig', [
-            'instagram_account' => $this->getParameter('instagram_main_user_name')
+            'instagram_account' => $this->getParameter('instagram_main_user_name'),
+            'references' => $reviewArray,
         ]);
     }
 

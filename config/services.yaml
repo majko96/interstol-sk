@@ -10,6 +10,7 @@ parameters:
     instagram_main_user_name: '%env(INSTAGRAM_MAIN_USER_NAME)%'
     google_drive_api_key: '%env(GOOGLE_DRIVE_API_KEY)%'
     google_drive_file_id: '%env(GOOGLE_DRIVE_FILE_ID)%'
+    instagram_feed_api_key: '%env(INSTAGRAM_FEED_API_KEY)%'
 
 services:
     GuzzleHttp\Client: '@eight_points_guzzle.client.default'
