@@ -221,6 +221,23 @@ class ApiController extends AbstractController
         return new JsonResponse($instagramMedia);
     }
 
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    #[Route('/api/instagram-check', name: 'api_instagram_check')]
+    public function instagramCheck(): JsonResponse
+    {
+        $cache = new FilesystemAdapter();
+        $key = 'last_request_time';
+        $lastRequestTime = $cache->getItem($key)->get();
+        if ($lastRequestTime !== null) {
+            $localDateTime = date('d. m. Y H:i:s', $lastRequestTime);
+            return new JsonResponse(['last:' => $localDateTime]);
+        }
+        return new JsonResponse(['last:' => 'never']);
+    }
+
     /**
      * @throws InstagramDownloadException
      */
