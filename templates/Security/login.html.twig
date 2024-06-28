@@ -4,12 +4,12 @@
 
 {% block body %}
     <div class="login-form">
-        <div class="">
+        <div>
             <div class="row justify-content-center">
                 <div class="">
                     <div class="login-card">
                         <div class="card-header">
-                            <h5 class="card-title text-center">Admin</h5>
+                            <h5 class="card-title">Admin</h5>
                         </div>
                         <div class="card-body">
                             {% if error %}
@@ -38,6 +38,12 @@
                     </div>
                 </div>
             </div>
+            <div class="text-center">
+                <small>Instagram: {{ last_time_instagram_fetch }}</small>
+            </div>
         </div>
     </div>
+    <script>
+        document.getElementById('contactButton').classList.add('d-none');
+    </script>
 {% endblock %}
