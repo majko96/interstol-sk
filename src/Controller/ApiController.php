@@ -138,7 +138,7 @@ class ApiController extends AbstractController
      * @throws RandomException
      */
     #[Route('/api/instagram-feed/{forced}/{apiKey}', name: 'api_instagram_feed', defaults: ['forced' => null, 'apiKey' => null])]
-    public function instagramFeed(Request $request, ?string $forced, ?string $apiKey): JsonResponse|string
+    public function instagramFeed(?string $forced, ?string $apiKey): JsonResponse|string
     {
 
         if (!is_dir('../public/instagram')) {
@@ -217,6 +217,21 @@ class ApiController extends AbstractController
         } else {
             $instagramDataService = new InstagramDataService();
             $instagramMedia = $instagramDataService->getCachedInstagramData();
+        }
+        return new JsonResponse($instagramMedia);
+    }
+
+    #[Route('/api/instagram-feed-cached', name: 'api_instagram_feed_cached')]
+    public function instagramFeedCached(): JsonResponse
+    {
+        $instagramDataService = new InstagramDataService();
+        $instagramMedia = $instagramDataService->getCachedInstagramData();
+        if (empty($instagramMedia)) {
+            try {
+                return $this->instagramFeed(null, null);
+            } catch (Exception $e) {
+                return new JsonResponse($e->getMessage(), 500);
+            }
         }
         return new JsonResponse($instagramMedia);
     }
