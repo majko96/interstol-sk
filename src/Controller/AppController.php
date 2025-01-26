@@ -26,21 +26,22 @@ class AppController extends BaseController
     #[Route('/', name: 'app_home_page')]
     public function index(): Response
     {
-        $reviewRepository = $this->entityManager->getRepository(Review::class);
-
-        $reviews = $reviewRepository->findAll();
-        $reviewArray = [];
-        foreach ($reviews as $review) {
-            $reviewArray[] = [
-                'id' => $review->getId(),
-                'name' => $review->getName(),
-                'value' => $review->getValue(),
-                'text' => $review->getText(),
-            ];
-        }
+//        $reviewRepository = $this->entityManager->getRepository(Review::class);
+//
+//        $reviews = $reviewRepository->findAll();
+//        $reviewArray = [];
+//        foreach ($reviews as $review) {
+//            $reviewArray[] = [
+//                'id' => $review->getId(),
+//                'name' => $review->getName(),
+//                'value' => $review->getValue(),
+//                'text' => $review->getText(),
+//            ];
+//        }
         return $this->render('App/HomePage.html.twig', [
             'instagram_account' => $this->getParameter('instagram_main_user_name'),
-            'references' => $reviewArray,
+            'place_id' => $this->getParameter('google_place_id'),
+//            'references' => $reviewArray,
         ]);
     }
 

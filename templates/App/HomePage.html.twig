@@ -52,10 +52,14 @@
         <div class="text-center">
             <h2 class="fw-bold">Recenzie</h2>
 
+            {% set propsReviews = {
+                'place_id': place_id
+            } %}
+
             <div
                 class="container pt-4 pb-5"
                 data-react-container="References"
-                data-react-props="{{ references|json_encode }}">
+                data-react-props="{{ propsReviews|json_encode }}">
             </div>
         </div>
     </div>

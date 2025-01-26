@@ -37,6 +37,8 @@ const customStyles = {
 const References = (props) => {
     const [arrow, setArrow] = useState(true);
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [reviews, setReviews] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     function openModal() {
         setIsOpen(true);
@@ -50,6 +52,16 @@ const References = (props) => {
         if (window.innerWidth <= 700) {
             setArrow(false);
         }
+
+        fetch('/api/reviews')
+            .then(response => response.json())
+            .then(data => {
+                setReviews(data);
+                setIsLoading(false)
+            })
+            .catch(error => {
+                console.error("There was an error fetching the reviews!", error);
+            });
     }, []);
 
     const renderModal = () => {
@@ -69,16 +81,21 @@ const References = (props) => {
     }
 
     const renderReferences = (items) => {
-        return Object.values(items).map((item, index) => (
-            <div key={index} className="pe-4 ps-4 pb-4 ">
-                <div className="mb-3">
+        return items.map((item, index) => (
+            <div key={index} className="pe-4 ps-4 pb-4">
+                <div>
+                    <b>{item.author_name}</b>
+                </div>
+                <div className="mb-3 mt-3">
                     <Rating
-                        initialValue={item.value}
+                        initialValue={parseInt(item.rating)}
                         readonly={true}
                     />
                 </div>
                 <p>{item.text}</p>
-                <b>{item.name}</b>
+                <p style={{ fontSize: '12px', color: '#aaa' }}>
+                    {item.time}
+                </p>
             </div>
         ));
     };
@@ -94,20 +111,32 @@ const References = (props) => {
         arrows: arrow,
     };
 
+    const renderLoading = () => {
+        return (
+            <div className="white-loader"></div>
+        )
+    }
+
+    if (isLoading) return (
+        <div className={'p-5'}>
+            {renderLoading()}
+        </div>
+    );
+
     return (
         <div className="slider-container pb-5">
             {renderModal()}
             <Slider {...settings}>
-                {renderReferences(props)}
+                {renderReferences(reviews)}
             </Slider>
             <div className={'pt-5 mt-3'}>
-                <button
+                <a
+                    href={'https://search.google.com/local/writereview?placeid=' + props.place_id}
+                    target={'_blank'}
                     className='btn btn-secondary send-button'
-                    type="submit"
-                    onClick={openModal}
                 >
                     Pridať recenziu
-                </button>
+                </a>
             </div>
         </div>
     );

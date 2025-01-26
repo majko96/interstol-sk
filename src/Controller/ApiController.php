@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\InstagramDataService;
 use Exception;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Instagram\Exception\InstagramAuthException;
 use Instagram\Exception\InstagramDownloadException;
@@ -12,6 +13,7 @@ use Instagram\Model\Media;
 use Psr\Cache\InvalidArgumentException;
 use Random\RandomException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -144,6 +146,16 @@ class ApiController extends AbstractController
         if (!is_dir('../public/instagram')) {
             mkdir('../public/instagram');
         }
+
+        // fix instagram lib not working
+        $filePath = __DIR__ . '/../../public/data/instagram.json';
+        if (!file_exists($filePath)) {
+            throw new FileNotFoundException('Instagram JSON file not found.');
+        }
+        $jsonData = file_get_contents($filePath);
+        $data = json_decode($jsonData, true);
+
+        return new JsonResponse($data);
 
         $cachePool = new FilesystemAdapter('Instagram', 0, __DIR__ . '/../cache');
 
@@ -284,6 +296,60 @@ class ApiController extends AbstractController
         file_put_contents($folder . '/' . $fileName, $content);
 
         return $fileName;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    #[Route('/api/reviews', name: 'api_reviews')]
+    public function reviews(): JsonResponse
+    {
+        $cache = new FilesystemAdapter();
+        $client = new Client();
+        $cacheKey = 'google_place_reviews_' . $this->getParameter('google_place_id');
+        $cacheItem = $cache->getItem($cacheKey);
+
+        if (!$cacheItem->isHit()) {
+            $url = 'https://maps.googleapis.com/maps/api/place/details/json';
+            $params = [
+                'place_id' => $this->getParameter('google_place_id'),
+                'key' => $this->getParameter('google_api_key'),
+                'fields' => 'reviews',
+                'reviews_sort' => 'newest',
+                'reviews_no_translations' => true
+            ];
+
+            $urlWithParams = $url . '?' . http_build_query($params);
+
+            try {
+                $response = $client->request('GET', $urlWithParams);
+                $data = json_decode($response->getBody()->getContents(), true);
+            } catch (\Exception $e) {
+                return new JsonResponse(['error' => 'Error fetching data from Google API'], 500);
+            }
+
+            $cacheItem->set($data);
+            $cacheItem->expiresAfter(7200);
+
+            $cache->save($cacheItem);
+        } else {
+            $data = $cacheItem->get();
+        }
+
+        $reviews = [];
+        if (isset($data['result']['reviews'])) {
+            foreach ($data['result']['reviews'] as $review) {
+                $reviews[] = [
+                    'author_name' => $review['author_name'],
+                    'rating' => $review['rating'],
+                    'text' => $review['text'],
+                    'profile_image' => $review['profile_photo_url'],
+                    'time' => date('d.m.Y', $review['time']),
+                ];
+            }
+        }
+
+        return new JsonResponse($reviews);
     }
 
 }

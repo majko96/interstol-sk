@@ -11,6 +11,8 @@ parameters:
     google_drive_api_key: '%env(GOOGLE_DRIVE_API_KEY)%'
     google_drive_file_id: '%env(GOOGLE_DRIVE_FILE_ID)%'
     instagram_feed_api_key: '%env(INSTAGRAM_FEED_API_KEY)%'
+    google_place_id: '%env(GOOGLE_PLACE_ID)%'
+    google_api_key: '%env(GOOGLE_API_KEY)%'
 
 services:
     GuzzleHttp\Client: '@eight_points_guzzle.client.default'
