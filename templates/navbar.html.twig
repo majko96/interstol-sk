@@ -32,6 +32,12 @@
                             O nás
                         </a>
                         <a
+                                class="nav-link {{ app.request.attributes.get('_route') == 'app_photos' ? 'active' : '' }}"
+                                href="/realizacie"
+                        >
+                            Realizácie
+                        </a>
+                        <a
                                 class="nav-link {{ app.request.attributes.get('_route') == 'app_services' ? 'active' : '' }}"
                                 href="/nase-sluzby"
                         >
@@ -83,6 +89,12 @@
                                         A-typický nábytok</a></li>
                             </ul>
                         </li>
+                        <a
+                                class="nav-link {{ app.request.attributes.get('_route') == 'app_reviews' ? 'active' : '' }}"
+                                href="/recenzie"
+                        >
+                            Recenzie
+                        </a>
                         <a
                                 class="nav-link {{ app.request.attributes.get('_route') == 'app_materials' ? 'active' : '' }}"
                                 href="/materialy"

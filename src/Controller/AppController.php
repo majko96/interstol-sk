@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Review;
+use App\Service\GoogleReviewsService;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Client;
+use SplFileInfo;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
@@ -92,4 +96,85 @@ class AppController extends BaseController
     {
         return $this->render('App/Contact.html.twig');
     }
+
+    #[Route('/recenzie', name: 'app_reviews')]
+    public function reviews(): Response
+    {
+        $googlePlaceId = $this->getParameter('google_place_id');
+        $googleReviewsService = new GoogleReviewsService(
+            $googlePlaceId,
+            $this->getParameter('google_api_key')
+        );
+
+        $reviews = $googleReviewsService->getReviews();
+        return $this->render('App/Reviews.html.twig', compact('reviews', 'googlePlaceId'));
+    }
+
+    #[Route('/realizacie', name: 'app_photos')]
+    public function photoGallery(): Response
+    {
+        $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
+
+        $folderConfig = [
+            '1' => ['title' => 'Kuchyne',    'order' => 1],
+            '2' => ['title' => 'Kúpeľňový nábytok',    'order' => 5],
+            '3' => ['title' => 'Obývačky',   'order' => 4],
+            '4' => ['title' => 'Schodiská',   'order' => 3],
+            '5' => ['title' => 'Vstavané skrine',   'order' => 6],
+            '8' => ['title' => 'Spálne',   'order' => 2],
+            '9' => ['title' => 'Ostatné',   'order' => 7],
+        ];
+
+        $allDirs = array_filter(glob($baseDir . '/*'), 'is_dir');
+
+        $orderStart = count($folderConfig) + 1;
+        foreach ($allDirs as $dirPath) {
+            $folderName = basename($dirPath);
+            if (!isset($folderConfig[$folderName])) {
+                $folderConfig[$folderName] = [
+                    'title' => $folderName,
+                    'order' => $orderStart++,
+                ];
+            }
+        }
+
+        uasort($folderConfig, fn($a, $b) => $a['order'] <=> $b['order']);
+
+        $galleries = [];
+
+        foreach ($folderConfig as $folder => $config) {
+            $dirPath = $baseDir . '/' . $folder;
+
+            if (!is_dir($dirPath)) {
+                continue;
+            }
+
+            $finder = new Finder();
+            $finder->files()
+                ->in($dirPath)
+                ->name('/\.(jpe?g|png|gif|webp)$/i');
+
+            $files = iterator_to_array($finder);
+            usort($files, function (SplFileInfo $a, SplFileInfo $b) {
+                return $b->getMTime() <=> $a->getMTime();
+            });
+
+            $images = [];
+
+            foreach ($files as $file) {
+                $relativePath = str_replace($baseDir, '', $file->getRealPath());
+                $images[] = '/images' . $relativePath;
+            }
+
+            if (!empty($images)) {
+                $galleries[] = [
+                    'name' => $config['title'],
+                    'images' => $images,
+                ];
+            }
+        }
+
+        return $this->render('App/PhotoGallery.html.twig', compact('galleries'));
+    }
+
 }

@@ -19,48 +19,21 @@
                             Dovoľte našej stolárskej firme zariadiť svoj domov nábytkom podľa Vašich predstáv.
                         </div>
                         <p class="main-color fst-italic fw-light p-2 mt-4">„Stolárstvo s viac ako 25 ročnými skúsenosťami"</p>
-                        <p class="pt-2">
-                        Spočiatku sme sa zameriavali predovšetkým na prácu
-                        s masívnym drevom - dvere, schody, postele...<br>S pokrokom doby sme rozšírili strojné
-                        vybavenie a začali
-                        pracovať aj s veľkoplošnými materiálmi. V modernej lakovni nie je problém vyrobiť najkvalitnejšie
-                        nástreky plôch od morenia, lakovania až po RAL odtiene farieb prevedených do vysokého lesku.
-                        O kvalite našich služieb svedčí aj skutočnosť, že do obchodnej siete v rámci Slovenska už bolo
-                        dodaných viac ako 10 000 výrobkov z našej dielne. Nakoľko rozširujeme zameranie aj na zákazkovú
-                        výrobu, bolo nevyhnutné rozšíriť aj výrobné technológie, aby sme dokázali splniť požiadavky aj
-                        tých najnáročnejších zákaznikov.
-                        </p>
                     </p>
                 </div>
         </div>
     </div>
     <div class="container-fluid mt-5 mb-5">
         <div class="text-center">
-            <h2 class="fw-bold"><i class="fab fa-instagram fa-xl"></i> Instagram</h2>
+            <h2 class="fw-bold"> Výber z našej práce</h2>
 
             {% set instagramAccount = instagram_account %}
 
-            {{ instagramAccount }}
             {% set props = {
                 'instagramAccount': instagram_account
             } %}
             <div class="container pt-5 pb-5" data-react-container="Instagram"
                  data-react-props={{ props|json_encode|raw }}></div>
-        </div>
-    </div>
-    <div class="container-fluid mt-4 mb-5">
-        <div class="text-center">
-            <h2 class="fw-bold">Recenzie</h2>
-
-            {% set propsReviews = {
-                'place_id': place_id
-            } %}
-
-            <div
-                class="container pt-4 pb-5"
-                data-react-container="References"
-                data-react-props="{{ propsReviews|json_encode }}">
-            </div>
         </div>
     </div>
     </div>

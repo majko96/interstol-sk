@@ -46,6 +46,10 @@ nav {
     }
 }
 
+.fixed-top {
+  z-index: 1080 !important;
+}
+
 .navbar-scrolled {
   margin-top: 0 !important;
   background-color: $dark-color;
@@ -70,7 +74,7 @@ nav {
   background-color: $dark-color;
   width: 100%;
   justify-content: end;
-  z-index: 1031;
+  z-index: 1081;
   a {
     color: $text-color;
     padding: 5px 10px;
@@ -1008,4 +1012,20 @@ footer section div a:hover {
 
 .top-navbar a:hover {
     color: $text-main-color !important;
+}
+
+.review {
+  padding: 25px;
+  background-color: #333;
+  border-radius: 30px;
+  border: 1px solid #6c757d;
+}
+
+a.send-button:hover i {
+  color: #000;
+}
+
+.lazy-image {
+  background-color: #333;
+  display: block;
 }

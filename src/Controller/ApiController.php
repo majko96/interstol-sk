@@ -14,6 +14,7 @@ use Psr\Cache\InvalidArgumentException;
 use Random\RandomException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -140,98 +141,49 @@ class ApiController extends AbstractController
      * @throws RandomException
      */
     #[Route('/api/instagram-feed/{forced}/{apiKey}', name: 'api_instagram_feed', defaults: ['forced' => null, 'apiKey' => null])]
-    public function instagramFeed(?string $forced, ?string $apiKey): JsonResponse|string
+    public function instagramFeed(): JsonResponse
     {
+        $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 
-        if (!is_dir('../public/instagram')) {
-            mkdir('../public/instagram');
+        $finder = new Finder();
+        $finder->files()
+            ->in($baseDir)
+            ->name('/\.(jpe?g|png|gif|webp)$/i');
+
+        $allImages = iterator_to_array($finder);
+
+        shuffle($allImages);
+        $selectedImages = array_slice($allImages, 0, 6);
+
+        $output = [];
+        $baseId = 1;
+        $count = 0;
+
+        foreach ($selectedImages as $file) {
+            $realPath = $file->getRealPath();
+            $relativePath = str_replace($baseDir, '', $realPath);
+            $urlPath = '/images' . str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
+            $filename = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+
+            [$width, $height] = getimagesize($realPath);
+
+            $output[] = [
+                'id' => $baseId + $count,
+                'caption' => null,
+                'link' => $urlPath,
+                'shortCode' => $filename,
+                'likes' => 1,
+                'comments' => 0,
+                'height' => $height,
+                'width' => $width,
+            ];
+
+            $count++;
         }
 
-        // fix instagram lib not working
-        $filePath = __DIR__ . '/../../public/data/instagram.json';
-        if (!file_exists($filePath)) {
-            throw new FileNotFoundException('Instagram JSON file not found.');
-        }
-        $jsonData = file_get_contents($filePath);
-        $data = json_decode($jsonData, true);
-
-        return new JsonResponse($data);
-
-        $cachePool = new FilesystemAdapter('Instagram', 0, __DIR__ . '/../cache');
-
-        $cache = new FilesystemAdapter();
-        $key = 'last_request_time';
-        $dataKey = 'data_key';
-        $lastRequestTime = $cache->getItem($key)->get();
-        $instagramMedia = [];
-
-        $folderItems = scandir('../public/instagram');
-        $itemsInFolder = array_diff($folderItems, ['.', '..']);
-        $numberOfFiles = count($itemsInFolder);
-
-        $instagramFeedApiKey = $this->getParameter('instagram_feed_api_key');
-
-        if ($apiKey !== null) {
-            if ($apiKey !== $instagramFeedApiKey) {
-                return new JsonResponse('Invalid API KEY!', 500);
-            }
-        }
-
-        if ($forced === 'forced' && $apiKey === null) {
-            return new JsonResponse('API KEY is missing!', 500);
-        }
-
-        if ($numberOfFiles === 0 || ($forced === 'forced' && $apiKey === $instagramFeedApiKey)) {
-            $cacheTime = 1;
-        } else {
-            $cacheTime = 43200 + random_int(7200, 14400);
-        }
-
-        if (!$lastRequestTime || (time() - $lastRequestTime) > $cacheTime) {
-            $api = new Api($cachePool);
-            $userName = $this->getParameter('instagram_user_name');
-            $password = $this->getParameter('instagram_password');
-            $mainInstagramAccount = $this->getParameter('instagram_main_user_name');
-            $api->login($userName, $password);
-
-            try {
-                $profile = $api->getProfile($mainInstagramAccount);
-            } catch (InstagramException $e) {
-                return new JsonResponse($e->getMessage(), 500);
-            }
-
-            try {
-                $profileMedia = $api->getMoreMedias($profile, 15);
-            } catch (InstagramException $e) {
-                return new JsonResponse($e->getMessage(), 500);
-            }
-
-            /** @var  $oneMedia */
-            $newData = [];
-            foreach ($profileMedia->getMedias() as $oneMedia) {
-                $newData['id'] = $oneMedia->getId();
-                $newData['shortCode'] = $oneMedia->getShortCode();
-                $newData['caption'] = $oneMedia->getCaption();
-                $newData['link'] = $oneMedia->getLink();
-                $newData['likes'] = $oneMedia->getLikes();
-                $newData['comments'] = $oneMedia->getComments();
-                $newData['height'] = $oneMedia->getHeight();
-                $newData['width'] = $oneMedia->getWidth();
-                $instagramMedia[] = $newData;
-            }
-
-            $dataToSave = $cache->getItem($dataKey)->set(serialize($profileMedia->getMedias()));
-            $cache->save($dataToSave);
-            $cacheTime = $cache->getItem($key)->set(time());
-            $cache->save($cacheTime);
-
-            $this->downloadMedias($profileMedia->getMedias());
-        } else {
-            $instagramDataService = new InstagramDataService();
-            $instagramMedia = $instagramDataService->getCachedInstagramData();
-        }
-        return new JsonResponse($instagramMedia);
+        return new JsonResponse($output);
     }
+
 
     #[Route('/api/instagram-feed-cached', name: 'api_instagram_feed_cached')]
     public function instagramFeedCached(): JsonResponse
