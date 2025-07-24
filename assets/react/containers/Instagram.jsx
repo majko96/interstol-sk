@@ -14,7 +14,7 @@ const Instagram = () => {
         setError(false);
         setData(null);
         try {
-            const response = await fetch('/api/instagram-feed-cached');
+            const response = await fetch('/api/instagram-feed');
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
