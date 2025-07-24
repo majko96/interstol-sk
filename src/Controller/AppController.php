@@ -7,9 +7,13 @@ use App\Service\GoogleReviewsService;
 use Doctrine\ORM\EntityManagerInterface;
 use GuzzleHttp\Client;
 use SplFileInfo;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
@@ -175,6 +179,23 @@ class AppController extends BaseController
         }
 
         return $this->render('App/PhotoGallery.html.twig', compact('galleries'));
+    }
+
+    #[Route('/clear-cache', name: 'clear_cache')]
+    public function clearCache(KernelInterface $kernel): Response
+    {
+        $application = new Application($kernel);
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput([
+            'command' => 'cache:clear',
+            '--no-warmup' => true,
+        ]);
+        $output = new BufferedOutput();
+
+        $application->run($input, $output);
+
+        return new Response('<pre>' . $output->fetch() . '</pre>');
     }
 
 }
