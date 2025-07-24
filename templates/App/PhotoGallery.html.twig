@@ -4,13 +4,8 @@
     {{ parent() }}
     <link
             rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"
+            href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.css"
     />
-    <style>
-        .fancybox__container {
-            z-index: 1082 !important;
-        }
-    </style>
 {% endblock %}
 
 {% block body %}
@@ -27,72 +22,50 @@
                 {% set showCount = 4 %}
 
                 {% for image in gallery.images %}
-                    <div class="col-6 col-md-3 col-lg-3 position-relative"
-                         style="{{ loop.index > showCount ? 'display:none;' : 'display:block;' }}"
-                         data-index="{{ loop.index }}"
-                    >
-                        <a
-                                href="{{ image }}"
-                                data-fancybox="gallery-{{ loop.parent.loop.index }}"
-                                class="d-block ratio ratio-1x1"
-                                target="_blank"
-                        >
-                            <img
-                                    src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                                    data-src="{{ image }}"
-                                    loading="lazy"
-                                    class="w-100 h-100 object-fit-cover rounded shadow-sm lazy-image"
-                                    alt="Foto">
+                    {% if loop.index <= showCount %}
+                        <div class="col-6 col-md-3 col-lg-3 position-relative" data-index="{{ loop.index }}">
+                            <a
+                                    href="{{ image }}"
+                                    data-fancybox="gallery-{{ loop.parent.loop.index }}"
+                                    class="d-block ratio ratio-1x1"
+                                    target="_blank"
+                            >
+                                <img
+                                        src="{{ image }}"
+                                        class="w-100 h-100 object-fit-cover rounded shadow-sm"
+                                        alt="Foto"
+                                >
 
-                            {% if loop.index == showCount and total > showCount %}
-                                <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center rounded shadow-sm"
-                                     style="background-color: rgba(0,0,0,0.6); color: white; font-size: 2rem; font-weight: bold;">
-                                    +{{ total - showCount }}
-                                </div>
-                            {% endif %}
+                                {% if loop.index == showCount and total > showCount %}
+                                    <div class="overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center rounded shadow-sm"
+                                         style="background-color: rgba(0,0,0,0.6); color: white; font-size: 2rem; font-weight: bold;">
+                                        +{{ total - showCount }}
+                                    </div>
+                                {% endif %}
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {% for image in gallery.images %}
+                    {% if loop.index > showCount %}
+                        <a href="{{ image }}" data-fancybox="gallery-{{ loop.parent.loop.index }}" class="d-none" tabindex="-1">
+                            <img src="{{ image }}" alt="Foto">
                         </a>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endfor %}
+
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const lazyImages = document.querySelectorAll('img.lazy-image');
-
-            if ('IntersectionObserver' in window) {
-                const imgObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const img = entry.target;
-                            if (img.dataset.src) {
-                                img.src = img.dataset.src;
-                                img.removeAttribute('data-src');
-                            }
-                            observer.unobserve(img);
-                        }
-                    });
-                }, {
-                    rootMargin: '200px',
-                    threshold: 0.1
-                });
-
-                lazyImages.forEach(img => {
-                    imgObserver.observe(img);
-                });
-            } else {
-                lazyImages.forEach(img => {
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                    }
-                });
-            }
+            Fancybox.bind("[data-fancybox]", {});
         });
     </script>
 
