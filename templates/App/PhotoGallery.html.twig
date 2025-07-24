@@ -52,7 +52,7 @@
                 {% for image in gallery.images %}
                     {% if loop.index > showCount %}
                         <a href="{{ image }}" data-fancybox="gallery-{{ loop.parent.loop.index }}" class="d-none" tabindex="-1">
-                            <img src="{{ image }}" alt="Foto">
+                            <img src="{{ image }}" alt="Foto" loading="lazy">
                         </a>
                     {% endif %}
                 {% endfor %}
@@ -67,7 +67,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            Fancybox.bind("[data-fancybox]", {});
+            Fancybox.bind("[data-fancybox]", {
+                preload: 1,
+            });
 
             const lazyImages = document.querySelectorAll('img.lazy-image');
 
