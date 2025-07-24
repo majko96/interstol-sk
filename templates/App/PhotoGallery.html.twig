@@ -31,8 +31,10 @@
                                     target="_blank"
                             >
                                 <img
-                                        src="{{ image }}"
-                                        class="w-100 h-100 object-fit-cover rounded shadow-sm"
+                                        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="  {# blank placeholder #}
+                                        data-src="{{ image }}"
+                                        loading="lazy"
+                                        class="w-100 h-100 object-fit-cover rounded shadow-sm lazy-image"
                                         alt="Foto"
                                 >
 
@@ -66,8 +68,35 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             Fancybox.bind("[data-fancybox]", {});
+
+            const lazyImages = document.querySelectorAll('img.lazy-image');
+
+            if ('IntersectionObserver' in window) {
+                const imgObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.removeAttribute('data-src');
+                            }
+                            observer.unobserve(img);
+                        }
+                    });
+                }, {
+                    rootMargin: '200px',
+                    threshold: 0.1
+                });
+
+                lazyImages.forEach(img => imgObserver.observe(img));
+            } else {
+                lazyImages.forEach(img => {
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    }
+                });
+            }
         });
     </script>
-
 {% endblock %}
-
