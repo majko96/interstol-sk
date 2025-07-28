@@ -48,12 +48,12 @@
         window.onload = function() {
             var backgroundDiv = document.getElementById("backgroundDiv");
             var dotsContainer = document.getElementById("dotsContainer");
-            var images = ["kit7.jpg", "kit6.jpg", "kit3.jpg", 'kkk.jpg'];
+            var images = ["1/IMG_3394.jpeg", "1/IMG_2718.jpeg", "1/IMG_3391.jpeg"];
             var currentIndex = 0;
             var intervalId;
 
             function changeBackground(index) {
-                backgroundDiv.style.backgroundImage = "url('build/images/" + images[index] + "')";
+                backgroundDiv.style.backgroundImage = "url('images/" + images[index] + "')";
                 currentIndex = index;
                 updateDots();
             }

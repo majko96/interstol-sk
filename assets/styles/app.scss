@@ -1029,3 +1029,12 @@ a.send-button:hover i {
   background-color: #333;
   display: block;
 }
+
+#backgroundDiv {
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: background-image 0.5s ease-in-out;
+}
+
