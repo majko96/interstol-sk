@@ -116,7 +116,7 @@ class AppController extends BaseController
     #[Route('/recenzie', name: 'app_reviews')]
     public function reviews(EntityManagerInterface $em): Response
     {
-        $reviews = $em->getRepository(Review::class)->findAll();
+        $reviews = $em->getRepository(Review::class)->findBy([], ['createdAt' => 'DESC']);
 
 //        $googlePlaceId = $this->getParameter('google_place_id');
 //        $googleReviewsService = new GoogleReviewsService(
