@@ -97,7 +97,7 @@ const Instagram = () => {
                 {renderImages()}
             </div>
             <div className="pt-5">
-                <a className="btn btn-secondary send-button" href="/realizacie">
+                <a className="btn btn-secondary send-button" href="/vyroba-nabytku/kuchyne-na-mieru">
                     Zobraziť viac
                 </a>
             </div>

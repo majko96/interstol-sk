@@ -28,6 +28,7 @@ const ReferenceForm = () => {
             console.log('Email sent successfully:', data);
             setIsSending(false);
             setIsEmailSent(true);
+            window.location.href = '/recenzie';
         } catch (error) {
             setIsSending(false);
             console.error('There was an error sending the email:', error.message);

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Review;
 use App\Service\InstagramDataService;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -32,13 +34,17 @@ class ApiController extends AbstractController
 {
     private Environment $twig;
     private MailerInterface $mailer;
+    private EntityManagerInterface $em;
 
     public function __construct(
         MailerInterface $mailer,
         Environment $twig,
+        EntityManagerInterface $em
+
     ) {
         $this->twig = $twig;
         $this->mailer = $mailer;
+        $this->em = $em;
     }
 
     /**
@@ -107,27 +113,16 @@ class ApiController extends AbstractController
     public function sendReference(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent());
-        $defaultEmail = $this->getParameter('default_email');
 
-        $template = $this->twig->render('Mail/referenceMail.html.twig', [
-            'name' => $data->name,
-            'surname' => $data->surname,
-            'message' => $data->message,
-            'rating' =>$data->rating
-        ]);
+        $review = new Review();
+        $review->setName($data->name . ' ' . $data->surname ?? '');
+        $review->setValue($data->rating ?? 5);
+        $review->setText($data->message ?? '');
 
-        $email = (new TemplatedEmail())
-            ->from($defaultEmail)
-            ->to($defaultEmail)
-            ->subject('Nová recenzia')
-            ->html($template);
+        $this->em->persist($review);
+        $this->em->flush();
 
-        try {
-            $this->mailer->send($email);
-            $response  = true;
-        } catch (Exception $e) {
-            $response = $e->getMessage();
-        }
+        $response  = ['success' => true];
 
         return new JsonResponse($response);
     }

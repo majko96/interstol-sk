@@ -62,25 +62,37 @@ class AppController extends BaseController
     #[Route('/vyroba-nabytku/kuchyne-na-mieru', name: 'app_services_kitchen')]
     public function servicesKitchen(): Response
     {
-        return $this->render('App/ServicesKitchen.html.twig');
+        $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
+
+        $gallery = $this->loadGalleries([1], $baseDir);
+        return $this->render('App/ServicesKitchen.html.twig', compact('gallery'));
     }
 
     #[Route('/vyroba-nabytku/kupelnovy-nabytok', name: 'app_services_bathroom')]
     public function servicesBathroom(): Response
     {
-        return $this->render('App/ServicesBathroom.html.twig');
+        $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
+
+        $gallery = $this->loadGalleries([2], $baseDir);
+        return $this->render('App/ServicesBathroom.html.twig', compact('gallery'));
     }
 
     #[Route('/vyroba-nabytku/vstavane-skrine', name: 'app_services_bedroom')]
     public function servicesBedroom(): Response
     {
-        return $this->render('App/ServicesBedroom.html.twig');
+        $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
+
+        $gallery = $this->loadGalleries([8,5], $baseDir);
+        return $this->render('App/ServicesBedroom.html.twig', compact('gallery'));
     }
 
     #[Route('/vyroba-nabytku/atypicky-nabytok', name: 'app_services_atypical')]
     public function servicesAtypical(): Response
     {
-        return $this->render('App/ServicesAtypical.html.twig');
+        $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
+
+        $gallery = $this->loadGalleries([9,4,3], $baseDir);
+        return $this->render('App/ServicesAtypical.html.twig', compact('gallery'));
     }
 
     #[Route('/materialy', name: 'app_materials')]
@@ -102,21 +114,24 @@ class AppController extends BaseController
     }
 
     #[Route('/recenzie', name: 'app_reviews')]
-    public function reviews(): Response
+    public function reviews(EntityManagerInterface $em): Response
     {
-        $googlePlaceId = $this->getParameter('google_place_id');
-        $googleReviewsService = new GoogleReviewsService(
-            $googlePlaceId,
-            $this->getParameter('google_api_key')
-        );
+        $reviews = $em->getRepository(Review::class)->findAll();
 
-        $reviews = $googleReviewsService->getReviews();
-        return $this->render('App/Reviews.html.twig', compact('reviews', 'googlePlaceId'));
+//        $googlePlaceId = $this->getParameter('google_place_id');
+//        $googleReviewsService = new GoogleReviewsService(
+//            $googlePlaceId,
+//            $this->getParameter('google_api_key')
+//        );
+//
+//        $reviews = $googleReviewsService->getReviews();
+        return $this->render('App/Reviews.html.twig', compact('reviews'));
     }
 
     #[Route('/realizacie', name: 'app_photos')]
     public function photoGallery(): Response
     {
+        return $this->redirectToRoute('app_home_page');
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 
         $folderConfig = [
@@ -196,6 +211,42 @@ class AppController extends BaseController
         $application->run($input, $output);
 
         return new Response('<pre>' . $output->fetch() . '</pre>');
+    }
+
+    function loadGalleries(array $folders, string $baseDir): array
+    {
+        $images = [];
+
+        foreach ($folders as $folder) {
+            $dirPath = rtrim($baseDir, '/') . '/' . $folder;
+
+            if (!is_dir($dirPath)) {
+                continue;
+            }
+
+            $finder = new Finder();
+            $finder->files()
+                ->in($dirPath)
+                ->name('/\.(jpe?g|png|gif|webp)$/i');
+
+            $files = iterator_to_array($finder);
+
+            foreach ($files as $file) {
+                $relativePath = str_replace($baseDir, '', $file->getRealPath());
+                $images[] = '/images' . $relativePath;
+            }
+        }
+
+        usort($images, function ($a, $b) use ($baseDir) {
+            $pathA = $baseDir . DIRECTORY_SEPARATOR . ltrim(str_replace('/images', '', $a), DIRECTORY_SEPARATOR);
+            $pathB = $baseDir . DIRECTORY_SEPARATOR . ltrim(str_replace('/images', '', $b), DIRECTORY_SEPARATOR);
+
+            return filemtime($pathB) <=> filemtime($pathA);
+        });
+
+        return [
+            'images' => $images,
+        ];
     }
 
 }

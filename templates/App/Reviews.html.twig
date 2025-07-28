@@ -9,14 +9,15 @@
             <h1 class="mb-0">
                 Recenzie
             </h1>
-            <a
-                    href="https://search.google.com/local/writereview?placeid={{ googlePlaceId }}"
-                    target="_blank"
-                    class="btn btn-secondary send-button d-flex align-items-center"
-            >
-                <i class="fas fa-plus me-3"></i>
-                Pridať recenziu
-            </a>
+{#            <a#}
+{#                    href="https://search.google.com/local/writereview?placeid={{ googlePlaceId }}"#}
+{#                    target="_blank"#}
+{#                    class="btn btn-secondary send-button d-flex align-items-center"#}
+{#            >#}
+{#                <i class="fas fa-plus me-3"></i>#}
+{#                Pridať recenziu#}
+{#            </a>#}
+            <div data-react-container="References"></div>
         </div>
 
         {% if reviews is empty %}
@@ -28,16 +29,15 @@
                         <div class="review h-100">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="{{ review.profile_image }}" alt="Avatar" class="rounded-circle me-3" width="50" height="50">
                                     <div>
-                                        <h5 class="mb-0">{{ review.author_name }}</h5>
-                                        <small style="opacity: 0.5">{{ review.time }}</small>
+                                        <h5 class="mb-0">{{ review.name }}</h5>
+                                        <small style="opacity: 0.5">{{ review.createdAt|date('d.m.Y') }}</small>
                                     </div>
                                 </div>
 
                                 <div class="mb-2">
                                     {% for i in 1..5 %}
-                                        {% if i <= review.rating %}
+                                        {% if i <= review.value %}
                                             <i class="bi bi-star-fill text-warning"></i>
                                         {% else %}
                                             <i class="bi bi-star text-muted"></i>
