@@ -64,8 +64,26 @@ class AppController extends BaseController
     {
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 
-        $gallery = $this->loadGalleries([1], $baseDir);
-        return $this->render('App/ServicesKitchen.html.twig', compact('gallery'));
+        $folders = [
+            'kitchen_baza' => 'Kuchyňa Baza',
+            'kitchen_bielik' => 'Kuchyňa Bielik',
+            'kitchen_bohus' => 'Kuchyňa Bohuš',
+            'kitchen_dvorscik' => 'Kuchyňa Dvorský',
+            'kitchen_klimoszek' => 'Kuchyňa Klimošek',
+            'kitchen_oskrobana' => 'Kuchyňa Oškrobaná',
+            'kitchen_teplicka' => 'Kuchyňa Teplička',
+        ];
+
+        $galleries = [];
+        foreach ($folders as $folder => $title) {
+            $images = $this->loadGalleries([$folder], $baseDir);
+            $galleries[] = [
+                'title' => $title,
+                'images' => $images[$folder] ?? [],
+            ];
+        }
+
+        return $this->render('App/ServicesKitchen.html.twig', compact('galleries'));
     }
 
     #[Route('/vyroba-nabytku/kupelnovy-nabytok', name: 'app_services_bathroom')]
@@ -73,16 +91,20 @@ class AppController extends BaseController
     {
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 
-        $gallery = $this->loadGalleries([2], $baseDir);
+        $galleries = $this->loadGalleries(['bathrooms'], $baseDir);
+        $gallery = $galleries['bathrooms'] ?? [];
+
         return $this->render('App/ServicesBathroom.html.twig', compact('gallery'));
     }
+
 
     #[Route('/vyroba-nabytku/vstavane-skrine', name: 'app_services_bedroom')]
     public function servicesBedroom(): Response
     {
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 
-        $gallery = $this->loadGalleries([8,5], $baseDir);
+        $galleries = $this->loadGalleries(['cabinet'], $baseDir);
+        $gallery = $galleries['cabinet'] ?? [];
         return $this->render('App/ServicesBedroom.html.twig', compact('gallery'));
     }
 
@@ -91,7 +113,8 @@ class AppController extends BaseController
     {
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 
-        $gallery = $this->loadGalleries([9,4,3], $baseDir);
+        $galleries = $this->loadGalleries(['others'], $baseDir);
+        $gallery = $galleries['others'] ?? [];
         return $this->render('App/ServicesAtypical.html.twig', compact('gallery'));
     }
 
@@ -215,7 +238,7 @@ class AppController extends BaseController
 
     function loadGalleries(array $folders, string $baseDir): array
     {
-        $images = [];
+        $galleries = [];
 
         foreach ($folders as $folder) {
             $dirPath = rtrim($baseDir, '/') . '/' . $folder;
@@ -229,24 +252,28 @@ class AppController extends BaseController
                 ->in($dirPath)
                 ->name('/\.(jpe?g|png|gif|webp)$/i');
 
-            $files = iterator_to_array($finder);
+            $images = [];
 
-            foreach ($files as $file) {
+            foreach ($finder as $file) {
                 $relativePath = str_replace($baseDir, '', $file->getRealPath());
                 $images[] = '/images' . $relativePath;
             }
+
+//            usort($images, function ($a, $b) use ($baseDir) {
+//                $pathA = $baseDir . DIRECTORY_SEPARATOR . ltrim(str_replace('/images', '', $a), DIRECTORY_SEPARATOR);
+//                $pathB = $baseDir . DIRECTORY_SEPARATOR . ltrim(str_replace('/images', '', $b), DIRECTORY_SEPARATOR);
+//
+//                return filemtime($pathB) <=> filemtime($pathA);
+//            });
+
+            usort($images, function ($a, $b) {
+                return strcmp(basename($a), basename($b));
+            });
+
+            $galleries[$folder] = $images;
         }
 
-        usort($images, function ($a, $b) use ($baseDir) {
-            $pathA = $baseDir . DIRECTORY_SEPARATOR . ltrim(str_replace('/images', '', $a), DIRECTORY_SEPARATOR);
-            $pathB = $baseDir . DIRECTORY_SEPARATOR . ltrim(str_replace('/images', '', $b), DIRECTORY_SEPARATOR);
-
-            return filemtime($pathB) <=> filemtime($pathA);
-        });
-
-        return [
-            'images' => $images,
-        ];
+        return $galleries;
     }
 
 }

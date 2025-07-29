@@ -19,12 +19,15 @@
                         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.0/dist/fancybox/fancybox.css" />
                     {% endblock %}
 
-                    {% if gallery is defined %}
-                        {% include 'gallery/_gallery.html.twig' with {
-                            gallery: gallery,
-                            galleryIndex: 1,
-                        } %}
-                    {% else %}
+                    {% if galleries is defined %}
+                        {% for item in galleries %}
+                            <h2 class="mt-5">{{ item.title }}</h2>
+
+                            {% include 'gallery/_gallery.html.twig' with {
+                                gallery: item.images,
+                                galleryIndex: loop.index,
+                            } %}
+                        {% endfor %}
                     {% endif %}
             </div>
         </div>
