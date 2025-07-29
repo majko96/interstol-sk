@@ -70,8 +70,8 @@ class AppController extends BaseController
             'kitchen_bohus' => 'Kuchyňa - Považská Bystrica',
             'kitchen_dvorscik' => 'Kuchyňa - Považská Bystrica',
             'kitchen_klimoszek' => 'Kuchyňa - Považská Bystrica',
-            'kitchen_oskrobana' => 'Kuchyňa Bodiná',
-            'kitchen_teplicka' => 'Kuchyňa Teplička nad Váhom',
+            'kitchen_oskrobana' => 'Kuchyňa - Bodiná',
+            'kitchen_teplicka' => 'Kuchyňa - Teplička nad Váhom',
         ];
 
         $galleries = [];
