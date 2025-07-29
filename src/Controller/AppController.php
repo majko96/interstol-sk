@@ -65,13 +65,13 @@ class AppController extends BaseController
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 
         $folders = [
-            'kitchen_baza' => 'Kuchyňa Baza',
-            'kitchen_bielik' => 'Kuchyňa Bielik',
-            'kitchen_bohus' => 'Kuchyňa Bohuš',
-            'kitchen_dvorscik' => 'Kuchyňa Dvorský',
-            'kitchen_klimoszek' => 'Kuchyňa Klimošek',
-            'kitchen_oskrobana' => 'Kuchyňa Oškrobaná',
-            'kitchen_teplicka' => 'Kuchyňa Teplička',
+            'kitchen_baza' => 'Kuchyňa - Prečín',
+            'kitchen_bielik' => 'Kuchyňa - Považská Bystrica',
+            'kitchen_bohus' => 'Kuchyňa - Považská Bystrica',
+            'kitchen_dvorscik' => 'Kuchyňa - Považská Bystrica',
+            'kitchen_klimoszek' => 'Kuchyňa - Považská Bystrica',
+            'kitchen_oskrobana' => 'Kuchyňa Bodiná',
+            'kitchen_teplicka' => 'Kuchyňa Teplička nad Váhom',
         ];
 
         $galleries = [];
