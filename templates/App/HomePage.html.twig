@@ -52,6 +52,11 @@
             var currentIndex = 0;
             var intervalId;
 
+            images.forEach(function(src) {
+                var img = new Image();
+                img.src = "images/" + src;
+            });
+
             function changeBackground(index) {
                 backgroundDiv.style.backgroundImage = "url('images/" + images[index] + "')";
                 currentIndex = index;
