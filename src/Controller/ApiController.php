@@ -143,7 +143,8 @@ class ApiController extends AbstractController
         $finder = new Finder();
         $finder->files()
             ->in($baseDir)
-            ->name('/\.(jpe?g|png|gif|webp)$/i');
+            ->name('/\.(jpe?g|png|gif|webp)$/i')
+            ->notName('fb.png');
 
         $allImages = iterator_to_array($finder);
 
