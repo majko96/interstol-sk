@@ -52,7 +52,14 @@ const References = () => {
             >
                 <div className={'d-flex justify-content-between'}>
                     <h2>Napíšte nám recenziu</h2>
-                    <span onClick={closeModal}><i className="fa-regular fa-circle-xmark fa-2xl"></i></span>
+                    <button
+                        type="button"
+                        className="btn-close-icon"
+                        onClick={closeModal}
+                        aria-label="Zavrieť"
+                    >
+                        <i className="fa-regular fa-circle-xmark fa-2xl" aria-hidden="true"></i>
+                    </button>
                 </div>
                 <ReferenceForm/>
             </Modal>

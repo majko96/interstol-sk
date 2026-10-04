@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="preload" as="image" href="{{ asset('images/kitchen_baza/IMG_3392.JPG') }}">
+{% endblock %}
 {% block body %}
-<div class="homepage-header" id="backgroundDiv">
+<div class="homepage-header" id="backgroundDiv" style="background-image: url('{{ asset('images/kitchen_baza/IMG_3392.JPG') }}')">
     <div>
         <h1>Výroba nábytku <span class="text-main-color">na mieru</span><br> - Anton Dvorščík
         </h1>
@@ -45,17 +49,13 @@
         </div>
     </div>
     <script>
-        window.onload = function() {
+        document.addEventListener("DOMContentLoaded", function() {
             var backgroundDiv = document.getElementById("backgroundDiv");
             var dotsContainer = document.getElementById("dotsContainer");
             var images = ["kitchen_baza/IMG_3392.JPG", "kitchen_oskrobana/IMG_3496.JPG", "kitchen_teplicka/DSC_0417.JPEG"];
+            // index 0 is already rendered server-side as the initial background, no need to set it again
             var currentIndex = 0;
             var intervalId;
-
-            images.forEach(function(src) {
-                var img = new Image();
-                img.src = "images/" + src;
-            });
 
             function changeBackground(index) {
                 backgroundDiv.style.backgroundImage = "url('images/" + images[index] + "')";
@@ -84,15 +84,17 @@
                 intervalId = setInterval(function() {
                     currentIndex = (currentIndex + 1) % images.length;
                     changeBackground(currentIndex);
-                }, 7000);
+                }, 5000);
             }
-            changeBackground(currentIndex);
-            updateDots();
 
-            intervalId = setInterval(function() {
-                currentIndex = (currentIndex + 1) % images.length;
-                changeBackground(currentIndex);
-            }, 5000);
-        };
+            updateDots();
+            resetInterval();
+
+            // preload the remaining rotation images only after first paint, so they don't compete with the LCP image
+            images.slice(1).forEach(function(src) {
+                var img = new Image();
+                img.src = "images/" + src;
+            });
+        });
     </script>
 {% endblock %}

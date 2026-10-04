@@ -14,13 +14,16 @@ class SitemapController extends AbstractController
         $this->router = $router;
     }
 
+    // app_photos is excluded: the controller currently redirects straight to the homepage (disabled gallery page)
+    private const SITEMAP_EXCLUDED_ROUTES = ['app_login', 'app_logout', 'app_photos'];
+
     #[Route('/sitemap.xml', name: 'sitemap')]
     public function index(): Response
     {
         $routes = $this->router->getRouteCollection()->all();
         $appRoutes = [];
         foreach ($routes as $name => $route) {
-            if (strpos($name, "app") === 0) {
+            if (strpos($name, "app") === 0 && !in_array($name, self::SITEMAP_EXCLUDED_ROUTES, true)) {
                 $appRoutes[$name] = $route;
             }
         }
@@ -58,10 +61,32 @@ class SitemapController extends AbstractController
     #[Route('/robots.txt', name: 'robots_txt')]
     public function robotsTxt(): Response
     {
-        $robotsTxt = "User-agent: *\nDisallow: /build/\nDisallow: /api/";
+        $sitemapUrl = $this->router->generate('sitemap', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $robotsTxt = implode("\n", [
+            'User-agent: *',
+            'Disallow: /build/',
+            'Disallow: /api/',
+            'Disallow: /admin',
+            'Disallow: /login',
+            'Disallow: /clear-cache',
+            '',
+            'Sitemap: ' . $sitemapUrl,
+        ]);
 
         $response = new Response($robotsTxt, 200);
         $response->headers->set('Content-Type', 'text/plain');
+
+        return $response;
+    }
+
+    #[Route('/llms.txt', name: 'llms_txt')]
+    public function llmsTxt(): Response
+    {
+        $llmsTxt = $this->renderView('Sitemap/llms.txt.twig');
+
+        $response = new Response($llmsTxt, 200);
+        $response->headers->set('Content-Type', 'text/plain; charset=utf-8');
 
         return $response;
     }

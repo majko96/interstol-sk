@@ -79,6 +79,7 @@ const ReferenceForm = () => {
                                     type="text"
                                     name="name"
                                     placeholder='Meno*'
+                                    aria-label="Meno"
                                     className='form-control'
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -93,6 +94,7 @@ const ReferenceForm = () => {
                                     type="text"
                                     name="surname"
                                     placeholder='Priezvisko*'
+                                    aria-label="Priezvisko"
                                     className='form-control'
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -120,6 +122,7 @@ const ReferenceForm = () => {
                             <textarea
                                 name="message"
                                 placeholder='Text recenzie*'
+                                aria-label="Text recenzie"
                                 rows={5}
                                 className='form-control'
                                 onChange={handleChange}

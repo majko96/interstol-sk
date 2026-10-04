@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Realizácie — fotogaléria hotových zákaziek | Interstol.sk{% endblock %}
+{% block meta_description %}Pozrite si fotografie hotových kuchýň, skríň a ďalšieho nábytku na mieru, ktorý sme vyrobili pre našich zákazníkov.{% endblock %}
+{% block og_title %}{{ block('title') }}{% endblock %}
+{% block og_description %}{{ block('meta_description') }}{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     <link

@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% block title %}A-typický nábytok na mieru | Interstol.sk{% endblock %}
+{% block meta_description %}Komody, TV skrinky, postele, nábytok do detskej izby či spálne — vyrobíme akýkoľvek atypický nábytok presne podľa vašich predstáv.{% endblock %}
+{% block og_title %}{{ block('title') }}{% endblock %}
+{% block og_description %}{{ block('meta_description') }}{% endblock %}
 {% block body %}
     <div class="container mt100 mb-5">
         <h1>A-typický nábytok</h1>
@@ -9,24 +13,12 @@
                     štýlový a moderný nábytok na mieru či už sa jedná o rôzne:
                 </p>
                 <div class="d-flex flex-wrap gap-3 pb-5 justify-content-center">
-                    <div class="review text-center" style="min-width: 150px; padding: 10px">
-                        Komody
-                    </div>
-                    <div class="review text-center" style="min-width: 150px; padding: 10px">
-                        TV skrinky
-                    </div>
-                    <div class="review text-center" style="min-width: 150px; padding: 10px">
-                        Postele
-                    </div>
-                    <div class="review text-center" style="min-width: 150px; padding: 10px">
-                        Detské izby
-                    </div>
-                    <div class="review text-center" style="min-width: 150px; padding: 10px">
-                        Spálne
-                    </div>
-                    <div class="review text-center" style="min-width: 150px; padding: 10px">
-                        Predsiene
-                    </div>
+                    <div class="tag-pill">Komody</div>
+                    <div class="tag-pill">TV skrinky</div>
+                    <div class="tag-pill">Postele</div>
+                    <div class="tag-pill">Detské izby</div>
+                    <div class="tag-pill">Spálne</div>
+                    <div class="tag-pill">Predsiene</div>
                 </div>
 
                 {% block stylesheets %}

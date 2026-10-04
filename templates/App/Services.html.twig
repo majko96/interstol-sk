@@ -1,9 +1,46 @@
 {% extends 'base.html.twig' %}
+{% block title %}Naše služby — výroba nábytku na mieru | Interstol.sk{% endblock %}
+{% block meta_description %}Od konzultácie cez cenovú ponuku až po výrobu a montáž — pozrite si, ako prebieha spolupráca so stolárstvom Interstol pri výrobe nábytku na mieru.{% endblock %}
+{% block og_title %}{{ block('title') }}{% endblock %}
+{% block og_description %}{{ block('meta_description') }}{% endblock %}
 {% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    {% endblock %}
     <div class="container mt100 mb-5">
         <h1>
             Naše služby
         </h1>
+        <p class="services-lead">
+            Navrhujeme a vyrábame nábytok na mieru presne podľa vašich predstáv — od kuchýň cez vstavané skrine
+            až po kúpeľňový a atypický nábytok. Každý kúsok vyrábame od návrhu až po montáž priamo u vás.
+        </p>
+
+        <div class="services-categories">
+            <a href="/vyroba-nabytku/kuchyne-na-mieru" class="services-category">
+                <img src="/build/images/kitchen.png" alt="Kuchyne na mieru" class="services-category__icon">
+                <span class="services-category__title">Kuchyne na mieru</span>
+            </a>
+            <a href="/vyroba-nabytku/vstavane-skrine" class="services-category">
+                <img src="/build/images/wardrobe.png" alt="Vstavané skrine" class="services-category__icon">
+                <span class="services-category__title">Vstavané skrine</span>
+            </a>
+            <a href="/vyroba-nabytku/kupelnovy-nabytok" class="services-category">
+                <img src="/build/images/bathroom.png" alt="Kúpeľňový nábytok" class="services-category__icon">
+                <span class="services-category__title">Kúpeľňový nábytok</span>
+            </a>
+            <a href="/vyroba-nabytku/atypicky-nabytok" class="services-category">
+                <img src="/build/images/tape-measure.png" alt="A-typický nábytok" class="services-category__icon">
+                <span class="services-category__title">A-typický nábytok</span>
+            </a>
+        </div>
+
+        <h2 class="services-section-title">Ako prebieha spolupráca</h2>
         <div class="container pt-5" data-react-container="Timeline"></div>
+
+        <div class="services-cta">
+            <a href="/kontakt" class="btn btn-secondary send-button">Dohodnúť konzultáciu</a>
+        </div>
     </div>
 {% endblock %}

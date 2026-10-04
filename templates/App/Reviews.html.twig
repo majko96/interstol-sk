@@ -1,14 +1,19 @@
 {% extends 'base.html.twig' %}
+{% block title %}Recenzie zákazníkov | Interstol.sk{% endblock %}
+{% block meta_description %}Prečítajte si, čo o spolupráci so stolárstvom Interstol hovoria naši spokojní zákazníci.{% endblock %}
+{% block og_title %}{{ block('title') }}{% endblock %}
+{% block og_description %}{{ block('meta_description') }}{% endblock %}
 {% block body %}
     {% block stylesheets %}
         {{ parent() }}
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     {% endblock %}
     <div class="container mt100 mb-5">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="mb-0">
-                Recenzie
-            </h1>
+        <div class="reviews-header">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <h1 class="mb-0">
+                    Recenzie
+                </h1>
 {#            <a#}
 {#                    href="https://search.google.com/local/writereview?placeid={{ googlePlaceId }}"#}
 {#                    target="_blank"#}
@@ -17,36 +22,37 @@
 {#                <i class="fas fa-plus me-3"></i>#}
 {#                Pridať recenziu#}
 {#            </a>#}
-            <div data-react-container="References"></div>
+                <div data-react-container="References"></div>
+            </div>
         </div>
 
         {% if reviews is empty %}
             <div class="alert alert-info">Zatiaľ nemáme žiadne recenzie.</div>
         {% else %}
-            <div class="row mt-5">
+            <div class="reviews-list mt-5">
                 {% for review in reviews %}
-                    <div class="col-md-4 mb-4">
-                        <div class="review h-100">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div>
-                                        <h5 class="mb-0">{{ review.name }}</h5>
-                                        <small style="opacity: 0.5">{{ review.createdAt|date('d.m.Y') }}</small>
-                                    </div>
-                                </div>
-
-                                <div class="mb-2">
+                    {% set nameParts = review.name|split(' ') %}
+                    {% set initials = nameParts[0]|slice(0, 1) %}
+                    {% if nameParts|length > 1 %}
+                        {% set initials = initials ~ nameParts[nameParts|length - 1]|slice(0, 1) %}
+                    {% endif %}
+                    <div class="review-item">
+                        <div class="review-item__avatar">{{ initials|upper }}</div>
+                        <div class="review-item__body">
+                            <div class="review-item__top">
+                                <h5 class="review-item__name">{{ review.name }}</h5>
+                                <div class="review-item__stars">
                                     {% for i in 1..5 %}
                                         {% if i <= review.value %}
-                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill"></i>
                                         {% else %}
-                                            <i class="bi bi-star text-muted"></i>
+                                            <i class="bi bi-star"></i>
                                         {% endif %}
                                     {% endfor %}
                                 </div>
-
-                                <p class="mb-0">{{ review.text }}</p>
+                                <div class="review-item__date">{{ review.createdAt|date('d.m.Y') }}</div>
                             </div>
+                            <p class="review-item__text">{{ review.text }}</p>
                         </div>
                     </div>
                 {% endfor %}

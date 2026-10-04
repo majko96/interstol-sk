@@ -22,7 +22,7 @@ const ImageUpload = ({ onFileUpload }) => {
     return (
         <div>
             <div {...getRootProps()} style={dropzoneStyles}>
-                <input {...getInputProps()} />
+                <input {...getInputProps()} aria-label="Nahrať prílohu k správe" />
                 {isDragActive ? (
                     <p>Drop the image here...</p>
                 ) : (
@@ -141,6 +141,7 @@ const ContactForm = () => {
                                 type="text"
                                 name="name"
                                 placeholder='Meno*'
+                                aria-label="Meno"
                                 className='form-control'
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -155,6 +156,7 @@ const ContactForm = () => {
                                 type="text"
                                 name="surname"
                                 placeholder='Priezvisko*'
+                                aria-label="Priezvisko"
                                 className='form-control'
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -169,6 +171,7 @@ const ContactForm = () => {
                                 type="email"
                                 name="email"
                                 placeholder='E-mail*'
+                                aria-label="E-mail"
                                 className='form-control'
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -183,6 +186,7 @@ const ContactForm = () => {
                                 type="text"
                                 name="phone"
                                 placeholder='Telefón*'
+                                aria-label="Telefón"
                                 className='form-control'
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -197,6 +201,7 @@ const ContactForm = () => {
                                 type="text"
                                 name="subject"
                                 placeholder='S čím Vám môžeme pomôcť?*'
+                                aria-label="Predmet"
                                 className='form-control'
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -210,6 +215,7 @@ const ContactForm = () => {
                             <textarea
                                 name="message"
                                 placeholder='Správa*'
+                                aria-label="Správa"
                                 rows={5}
                                 className='form-control'
                                 onChange={handleChange}
