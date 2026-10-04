@@ -7,13 +7,9 @@ use App\Service\InstagramDataService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use Instagram\Exception\InstagramAuthException;
 use Instagram\Exception\InstagramDownloadException;
-use Instagram\Exception\InstagramException;
 use Instagram\Model\Media;
 use Psr\Cache\InvalidArgumentException;
-use Random\RandomException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Finder\Finder;
@@ -128,15 +124,10 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @throws InstagramAuthException
-     * @throws InvalidArgumentException
-     * @throws InstagramException
-     * @throws GuzzleException
-     * @throws InstagramDownloadException
-     * @throws RandomException
+     * Returns a random sample of photos from public/images for the homepage "Výber z našej práce" showcase.
      */
-    #[Route('/api/instagram-feed', name: 'api_instagram_feed', defaults: ['forced' => null, 'apiKey' => null])]
-    public function instagramFeed(): JsonResponse
+    #[Route('/api/work-photos', name: 'api_work_photos')]
+    public function workPhotos(): JsonResponse
     {
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 

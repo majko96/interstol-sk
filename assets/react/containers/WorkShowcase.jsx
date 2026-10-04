@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Fancybox as NativeFancybox } from '@fancyapps/ui';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
-const Instagram = () => {
+const WorkShowcase = () => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(false);
     const containerRef = useRef(null);
@@ -14,7 +14,7 @@ const Instagram = () => {
         setError(false);
         setData(null);
         try {
-            const response = await fetch('/api/instagram-feed');
+            const response = await fetch('/api/work-photos');
             if (!response.ok) {
                 throw new Error('Failed to fetch data');
             }
@@ -68,12 +68,13 @@ const Instagram = () => {
                         href={item.link}
                         data-fancybox="gallery"
                         data-caption={item.caption}
+                        aria-label={item.caption || 'Ukážka našej práce'}
                         className="d-block img-container custom-height position-relative overflow-hidden"
                     >
                         <img
                             className="img-fluid insta-img"
                             src={item.link}
-                            alt={item.caption}
+                            alt={item.caption || 'Ukážka našej práce'}
                             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                         />
                         <div className="img-overlay"></div>
@@ -105,4 +106,4 @@ const Instagram = () => {
     );
 };
 
-export default Instagram;
+export default WorkShowcase;

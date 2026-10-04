@@ -24,19 +24,23 @@
                     <span class="icon-bar bottom-bar"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a
                                 class="nav-link {{ app.request.attributes.get('_route') == 'app_home_page' ? 'active' : '' }}"
                                 href="/"
-                        >
-                            O nás
-                        </a>
-                        <a
+                            >
+                                O nás
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
                                 class="nav-link {{ app.request.attributes.get('_route') == 'app_services' ? 'active' : '' }}"
                                 href="/nase-sluzby"
-                        >
-                            Naše služby
-                        </a>
+                            >
+                                Naše služby
+                            </a>
+                        </li>
                         <li class="nav-item dropdown d-lg-none d-block">
                             <a class="nav-link dropdown-toggle {{ active }}" href="#" id="navbarDropdownMobile" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
@@ -83,31 +87,39 @@
                                         A-typický nábytok</a></li>
                             </ul>
                         </li>
-                        <a
+                        <li class="nav-item">
+                            <a
                                 class="nav-link {{ app.request.attributes.get('_route') == 'app_reviews' ? 'active' : '' }}"
                                 href="/recenzie"
-                        >
-                            Recenzie
-                        </a>
-                        <a
+                            >
+                                Recenzie
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
                                 class="nav-link {{ app.request.attributes.get('_route') == 'app_materials' ? 'active' : '' }}"
                                 href="/materialy"
-                        >
-                            Materiály
-                        </a>
-                        <a
+                            >
+                                Materiály
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
                                 class="nav-link {{ app.request.attributes.get('_route') == 'app_fittings' ? 'active' : '' }}"
                                 href="/kovania"
-                        >
-                            Kovania
-                        </a>
-                        <a
+                            >
+                                Kovania
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a
                                 class="nav-link {{ app.request.attributes.get('_route') == 'app_contact' ? 'active' : '' }}"
                                 href="/kontakt"
-                        >
-                            Kontakt
-                        </a>
-                    </div>
+                            >
+                                Kontakt
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>

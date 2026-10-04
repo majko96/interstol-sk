@@ -31,13 +31,7 @@
         <div class="text-center">
             <h2 class="fw-bold"> Výber z našej práce</h2>
 
-            {% set instagramAccount = instagram_account %}
-
-            {% set props = {
-                'instagramAccount': instagram_account
-            } %}
-            <div class="container pt-5 pb-5" data-react-container="Instagram"
-                 data-react-props={{ props|json_encode|raw }}></div>
+            <div class="container pt-5 pb-5" data-react-container="WorkShowcase"></div>
         </div>
     </div>
     </div>

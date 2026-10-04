@@ -40,7 +40,7 @@
                         <div class="review-item__avatar">{{ initials|upper }}</div>
                         <div class="review-item__body">
                             <div class="review-item__top">
-                                <h5 class="review-item__name">{{ review.name }}</h5>
+                                <h2 class="review-item__name">{{ review.name }}</h2>
                                 <div class="review-item__stars">
                                     {% for i in 1..5 %}
                                         {% if i <= review.value %}

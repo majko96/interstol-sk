@@ -47,7 +47,6 @@ class AppController extends BaseController
 //            ];
 //        }
         return $this->render('App/HomePage.html.twig', [
-            'instagram_account' => $this->getParameter('instagram_main_user_name'),
             'place_id' => $this->getParameter('google_place_id'),
 //            'references' => $reviewArray,
         ]);
