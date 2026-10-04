@@ -75,6 +75,9 @@ const WorkShowcase = () => {
                             className="img-fluid insta-img"
                             src={item.link}
                             alt={item.caption || 'Ukážka našej práce'}
+                            width={item.width}
+                            height={item.height}
+                            loading="lazy"
                             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                         />
                         <div className="img-overlay"></div>

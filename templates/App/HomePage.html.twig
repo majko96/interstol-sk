@@ -84,10 +84,13 @@
             updateDots();
             resetInterval();
 
-            // preload the remaining rotation images only after first paint, so they don't compete with the LCP image
-            images.slice(1).forEach(function(src) {
-                var img = new Image();
-                img.src = "images/" + src;
+            // preload the remaining rotation images only once the page has fully loaded, so they never
+            // compete for bandwidth with the LCP hero image on slow connections
+            window.addEventListener("load", function() {
+                images.slice(1).forEach(function(src) {
+                    var img = new Image();
+                    img.src = "images/" + src;
+                });
             });
         });
     </script>
