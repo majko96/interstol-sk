@@ -206,7 +206,8 @@ class AppController extends BaseController
             $finder = new Finder();
             $finder->files()
                 ->in($dirPath)
-                ->name('/\.(jpe?g|png|gif|webp)$/i');
+                ->name('/\.(jpe?g|png|gif|webp)$/i')
+                ->exclude('thumbs');
 
             $files = iterator_to_array($finder);
             usort($files, function (SplFileInfo $a, SplFileInfo $b) {
@@ -262,13 +263,19 @@ class AppController extends BaseController
             $finder = new Finder();
             $finder->files()
                 ->in($dirPath)
-                ->name('/\.(jpe?g|png|gif|webp)$/i');
+                ->name('/\.(jpe?g|png|gif|webp)$/i')
+                ->exclude('thumbs');
 
             $images = [];
 
             foreach ($finder as $file) {
                 $relativePath = str_replace($baseDir, '', $file->getRealPath());
-                $images[] = '/images' . $relativePath;
+                $full = '/images' . $relativePath;
+                $thumbPath = $file->getPath() . '/thumbs/' . pathinfo($file->getFilename(), PATHINFO_FILENAME) . '.jpg';
+                $images[] = [
+                    'full' => $full,
+                    'thumb' => is_file($thumbPath) ? '/images' . str_replace($baseDir, '', $thumbPath) : $full,
+                ];
             }
 
 //            usort($images, function ($a, $b) use ($baseDir) {
@@ -279,7 +286,7 @@ class AppController extends BaseController
 //            });
 
             usort($images, function ($a, $b) {
-                return strcmp(basename($a), basename($b));
+                return strcmp(basename($a['full']), basename($b['full']));
             });
 
             $galleries[$folder] = $images;

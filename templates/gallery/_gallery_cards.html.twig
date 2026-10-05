@@ -2,11 +2,11 @@
     {% for item in galleries %}
         {% set count = item.images|length %}
         <div class="col-sm-6 col-lg-4">
-            <a href="{{ item.images[0] }}" data-fancybox="kitchen-projects" data-caption="{{ item.title }}" class="project-card">
+            <a href="{{ item.images[0].full }}" data-fancybox="kitchen-projects" data-caption="{{ item.title }}" class="project-card">
                 <div class="project-card__media">
                     <img
                             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-                            data-src="{{ item.images[0] }}"
+                            data-src="{{ item.images[0].thumb }}"
                             loading="lazy"
                             class="lazy-image"
                             alt="{{ item.title }}"
@@ -21,8 +21,8 @@
 
             {% for image in item.images %}
                 {% if not loop.first %}
-                    <a href="{{ image }}" data-fancybox="kitchen-projects" data-caption="{{ item.title }}" class="d-none" tabindex="-1">
-                        <img src="{{ image }}" alt="Foto" loading="lazy">
+                    <a href="{{ image.full }}" data-fancybox="kitchen-projects" data-caption="{{ item.title }}" class="d-none" tabindex="-1">
+                        <img src="{{ image.thumb }}" alt="Foto" loading="lazy">
                     </a>
                 {% endif %}
             {% endfor %}

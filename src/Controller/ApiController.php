@@ -135,7 +135,8 @@ class ApiController extends AbstractController
         $finder->files()
             ->in($baseDir)
             ->name('/\.(jpe?g|png|gif|webp)$/i')
-            ->notName('fb.png');
+            ->notName('fb.png')
+            ->exclude('thumbs');
 
         $allImages = iterator_to_array($finder);
 
