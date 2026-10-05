@@ -41,28 +41,41 @@
                                 Naše služby
                             </a>
                         </li>
-                        <li class="nav-item dropdown d-lg-none d-block">
-                            <a class="nav-link dropdown-toggle {{ active }}" href="#" id="navbarDropdownMobile" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
+                        <li class="nav-item mobile-submenu-item d-lg-none d-block">
+                            <a class="nav-link mobile-submenu-toggle {{ active }}" href="#"
+                               data-bs-toggle="collapse" data-bs-target="#mobileFurnitureMenu"
+                               role="button" aria-expanded="false" aria-controls="mobileFurnitureMenu">
                                 Výroba nábytku
+                                <i class="fas fa-chevron-down mobile-submenu-toggle__chevron"></i>
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMobile">
-                                <li>
-                                    <a class="dropdown-item" href="/vyroba-nabytku/kuchyne-na-mieru">
-                                        <img src="/build/images/kitchen.png" alt="Kuchyne na mieru" class="icon-img">&nbsp;
-                                        Kuchyne na mieru
-                                    </a>
-                                </li>
-                                <li><a class="dropdown-item" href="/vyroba-nabytku/vstavane-skrine">
-                                        <img src="/build/images/wardrobe.png" alt="Vstavané skrine" class="icon-img">&nbsp;
-                                        Vstavané skrine</a></li>
-                                <li><a class="dropdown-item" href="/vyroba-nabytku/kupelnovy-nabytok">
-                                        <img src="/build/images/bathroom.png" alt="Kúpeľňový nábytok" class="icon-img">&nbsp;
-                                        Kúpelňový nábytok</a></li>
-                                <li><a class="dropdown-item" href="/vyroba-nabytku/atypicky-nabytok">
-                                        <img src="/build/images/tape-measure.png" alt="A-typický nábytok" class="icon-img">&nbsp;
-                                        A-typický nábytok</a></li>
-                            </ul>
+                            <div class="collapse" id="mobileFurnitureMenu">
+                                <ul class="mobile-submenu list-unstyled">
+                                    <li>
+                                        <a class="mobile-submenu__item" href="/vyroba-nabytku/kuchyne-na-mieru">
+                                            <img src="/build/images/kitchen.png" alt="" class="mobile-submenu__icon">
+                                            Kuchyne na mieru
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="mobile-submenu__item" href="/vyroba-nabytku/vstavane-skrine">
+                                            <img src="/build/images/wardrobe.png" alt="" class="mobile-submenu__icon">
+                                            Vstavané skrine
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="mobile-submenu__item" href="/vyroba-nabytku/kupelnovy-nabytok">
+                                            <img src="/build/images/bathroom.png" alt="" class="mobile-submenu__icon">
+                                            Kúpeľňový nábytok
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="mobile-submenu__item" href="/vyroba-nabytku/atypicky-nabytok">
+                                            <img src="/build/images/tape-measure.png" alt="" class="mobile-submenu__icon">
+                                            A-typický nábytok
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item dropdown d-none d-lg-block">
                             <a class="nav-link dropdown-toggle {{ active }}" href="#" id="navbarDropdownDesktop" role="button"
