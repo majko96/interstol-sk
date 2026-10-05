@@ -24,14 +24,9 @@
                     {% endblock %}
 
                     {% if galleries is defined %}
-                        {% for item in galleries %}
-                            <h2 class="mt-5">{{ item.title }}</h2>
-
-                            {% include 'gallery/_gallery.html.twig' with {
-                                gallery: item.images,
-                                galleryIndex: loop.index,
-                            } %}
-                        {% endfor %}
+                        {% include 'gallery/_gallery_cards.html.twig' with {
+                            galleries: galleries,
+                        } %}
                     {% endif %}
             </div>
         </div>

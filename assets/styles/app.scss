@@ -1317,6 +1317,72 @@ footer section div a:hover {
   display: block;
 }
 
+.photo-thumb {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.photo-thumb:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+}
+
+.photo-thumb .lazy-image {
+  transition: transform 0.4s ease;
+}
+
+.photo-thumb:hover .lazy-image {
+  transform: scale(1.06);
+}
+
+.project-card {
+  position: relative;
+}
+
+.project-card__cover {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-card__cover .lazy-image {
+  transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-card__cover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+}
+
+.project-card:hover .project-card__cover .lazy-image {
+  transform: scale(1.06);
+}
+
+.project-card__count {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.project-card__title {
+  margin: 14px 2px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
 #backgroundDiv {
   width: 100%;
   background-position: center;
