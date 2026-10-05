@@ -63,7 +63,17 @@ class AppController extends BaseController
     {
         $baseDir = $this->getParameter('kernel.project_dir') . '/public/images';
 
+        // Newest additions go at the top of this list, so the gallery always shows the latest projects first.
+        // (Not sorted by filesystem date: deploys reset file mtimes, and WhatsApp strips EXIF data from photos,
+        // so neither survives a deploy — ordering this array by hand is the only thing that's actually stable.)
         $folders = [
+            'kitchen_povazska_bystrica_2' => 'Považská Bystrica',
+            'kitchen_precin_3' => 'Prečín',
+            'kitchen_rozkvet' => 'Považská Bystrica - Rozkvet',
+            'kitchen_precin_2' => 'Prečín',
+            'kitchen_povazska_tepla' => 'Považská Teplá',
+            'kitchen_podkrovie' => 'Podkrovie',
+            'kitchen_chata' => 'Chatová oblasť',
             'kitchen_baza' => 'Prečín',
             'kitchen_bielik' => 'Považská Bystrica',
             'kitchen_bohus' => 'Považská Bystrica',
@@ -74,13 +84,6 @@ class AppController extends BaseController
             'kitchen_vanco' => 'Bodiná',
             'kitchen_butora' => 'Prečín',
             'kitchen_domaniza' => 'Domaniža',
-            'kitchen_chata' => 'Chatová oblasť',
-            'kitchen_podkrovie' => 'Podkrovie',
-            'kitchen_povazska_tepla' => 'Považská Teplá',
-            'kitchen_precin_2' => 'Prečín',
-            'kitchen_rozkvet' => 'Považská Bystrica - Rozkvet',
-            'kitchen_precin_3' => 'Prečín',
-            'kitchen_povazska_bystrica_2' => 'Považská Bystrica',
         ];
 
         $galleries = [];

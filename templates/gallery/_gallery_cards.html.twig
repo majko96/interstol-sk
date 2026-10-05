@@ -2,29 +2,30 @@
     {% for item in galleries %}
         {% set count = item.images|length %}
         <div class="col-sm-6 col-lg-4">
-            <div class="project-card">
-                <a href="{{ item.images[0] }}" data-fancybox="gallery-{{ loop.index }}" class="project-card__cover ratio ratio-4x3 d-block">
+            <a href="{{ item.images[0] }}" data-fancybox="gallery-{{ loop.index }}" class="project-card">
+                <div class="project-card__media">
                     <img
                             src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
                             data-src="{{ item.images[0] }}"
                             loading="lazy"
-                            class="w-100 h-100 object-fit-cover lazy-image"
+                            class="lazy-image"
                             alt="{{ item.title }}"
                     >
+                    <div class="project-card__scrim"></div>
                     {% if count > 1 %}
                         <span class="project-card__count">{{ count }} {{ count == 1 ? 'fotka' : (count < 5 ? 'fotky' : 'fotiek') }}</span>
                     {% endif %}
-                </a>
-                <h2 class="project-card__title">{{ item.title }}</h2>
+                    <h2 class="project-card__title">{{ item.title }}</h2>
+                </div>
+            </a>
 
-                {% for image in item.images %}
-                    {% if not loop.first %}
-                        <a href="{{ image }}" data-fancybox="gallery-{{ loop.parent.loop.index }}" class="d-none" tabindex="-1">
-                            <img src="{{ image }}" alt="Foto" loading="lazy">
-                        </a>
-                    {% endif %}
-                {% endfor %}
-            </div>
+            {% for image in item.images %}
+                {% if not loop.first %}
+                    <a href="{{ image }}" data-fancybox="gallery-{{ loop.parent.loop.index }}" class="d-none" tabindex="-1">
+                        <img src="{{ image }}" alt="Foto" loading="lazy">
+                    </a>
+                {% endif %}
+            {% endfor %}
         </div>
     {% endfor %}
 </div>
