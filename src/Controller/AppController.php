@@ -74,6 +74,13 @@ class AppController extends BaseController
             'kitchen_vanco' => 'Bodiná',
             'kitchen_butora' => 'Prečín',
             'kitchen_domaniza' => 'Domaniža',
+            'kitchen_chata' => 'Chatová oblasť',
+            'kitchen_podkrovie' => 'Podkrovie',
+            'kitchen_povazska_tepla' => 'Považská Teplá',
+            'kitchen_precin_2' => 'Prečín',
+            'kitchen_rozkvet' => 'Považská Bystrica - Rozkvet',
+            'kitchen_precin_3' => 'Prečín',
+            'kitchen_povazska_bystrica_2' => 'Považská Bystrica',
         ];
 
         $galleries = [];
